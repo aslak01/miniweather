@@ -1,0 +1,9 @@
+html,
+body {
+  min-height: 100%;
+}
+
+svg, img {
+  max-height: 40px;
+}
+
