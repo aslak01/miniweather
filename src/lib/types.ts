@@ -58,3 +58,8 @@ export type Timeseries = {
     }
   }
 }
+
+export type DataAndTime = {
+  value: number
+  date: string
+}

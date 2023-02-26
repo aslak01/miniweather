@@ -1,5 +1,13 @@
 <script lang="ts">
-	export let temp: number;
+	import type { DataAndTime } from '$lib/types';
+	import { dateToHour } from '$lib/functions';
+	export let temp: DataAndTime;
 </script>
 
-<div>{temp}</div>
+<div>{dateToHour(temp.date)}: {temp.value}</div>
+
+<style>
+	div {
+		margin-right: 1rem;
+	}
+</style>

@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { env } from '$env/dynamic/public';
-	import { getWeather, getIcon, getRain, getTemps } from '$lib/functions';
+	import { getWeather, getIcon, getRain, getTemps } from '$lib/functions/index';
 	import { weathericons } from '$lib/weathericons';
 	import type { WeathericonKey } from '$lib/weathericons';
-	import type { Timeseries } from '$lib/types';
+	import type { Timeseries, DataAndTime } from '$lib/types';
 	import Rain from '$lib/components/rain.svelte';
 	import Temp from '$lib/components/temp.svelte';
+	import Linechart from '$lib/components/linechart.svelte';
 	import Raindrop from '$lib/icons/raindrop.svelte';
 	import Thermometer from '$lib/icons/thermometer.svelte';
 
@@ -16,12 +17,13 @@
 	let loaded = false;
 	let weather: void | null | Timeseries = null;
 	let icon: ConstructorOfATypedSvelteComponent | null = null;
-	let rain: null | number[] = null;
-	let temps: null | number[] = null;
+	let rain: null | DataAndTime[] = null;
+	let temps: null | DataAndTime[] = null;
 
 	onMount(async () => {
 		LAT && LON
-			? (weather = await getWeather(LAT, LON).then((res) => {
+			? (weather = await getWeather(LAT, LON).then((res: Timeseries[]) => {
+					console.log(res);
 					(icon as ConstructorOfATypedSvelteComponent) =
 						weathericons[getIcon(res) as WeathericonKey];
 
@@ -36,12 +38,17 @@
 <div>
 	{#if loaded}
 		{#if icon}
-			<svelte:component this={icon} />
+			<div class="icon">
+				<svelte:component this={icon} />
+			</div>
 		{/if}
 		{#if temps}
 			<div class="temps">
 				<div class="icon">
 					<Thermometer />
+				</div>
+				<div class="line">
+					<Linechart data={temps} />
 				</div>
 				{#each temps as temp}
 					<Temp {temp} />
@@ -52,6 +59,10 @@
 			<div class="rain">
 				<div class="icon">
 					<Raindrop />
+				</div>
+
+				<div class="line">
+					<Linechart data={rain} />
 				</div>
 				{#each rain as r}
 					<Rain rain={r} />
@@ -69,5 +80,9 @@
 	.icon {
 		height: 40px;
 		width: 40px;
+	}
+	.line {
+		width: 100px;
+		height: 100px;
 	}
 </style>
