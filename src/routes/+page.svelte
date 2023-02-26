@@ -3,11 +3,12 @@
 	import { env } from '$env/dynamic/public';
 	import { weathericons } from '$lib/weathericons';
 	import type { WeathericonKey } from '$lib/weathericons';
+	import type { Timeseries } from '$lib/types';
 
 	const LAT = env.PUBLIC_LAT,
 		LON = env.PUBLIC_LON;
 
-	const getWeather = async (lat: string, lon: string): Promise<string> => {
+	const getWeather = async (lat: string, lon: string): Promise<Timeseries[]> => {
 		const req = await fetch(
 			`https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`
 		);
@@ -16,11 +17,11 @@
 		return res.properties.timeseries;
 	};
 
-	const getIcon = (w): WeathericonKey => {
-		return w[1].data.next_6_hours.summary.symbol_code;
+	const getIcon = (w: Timeseries[]): WeathericonKey => {
+		return w[1].data.next_6_hours.summary.symbol_code as WeathericonKey;
 	};
 
-	const getTemps = (w): number[] => {
+	const getTemps = (w: Timeseries[]): number[] => {
 		const nextTemps = w.reduce(
 			(acc: number[], val: { data: { instant: { details: { air_temperature: number } } } }) => {
 				acc.push(val.data.instant.details.air_temperature);
@@ -31,7 +32,7 @@
 
 		return nextTemps.slice(2, 6);
 	};
-	const getRain = (w): number[] => {
+	const getRain = (w: Timeseries[]): number[] => {
 		const nextRain = w.reduce(
 			(
 				acc: number[],
