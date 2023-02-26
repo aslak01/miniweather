@@ -169,4 +169,4 @@ export const weathericons = {
   snowshowersandthunder_polartwilight
 } as const
 
-export type Weathericons = keyof typeof weathericons
+export type WeathericonKey = keyof typeof weathericons
