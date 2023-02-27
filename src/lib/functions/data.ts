@@ -28,9 +28,9 @@ export const getTemps = (w: Timeseries[], amt: number): DataAndTime[] => {
     },
     []
   );
-  const sliceAt = amt + 2
+  const sliceAt = amt
 
-  return nextTemps.slice(2, sliceAt);
+  return nextTemps.slice(0, sliceAt);
 };
 export const getRain = (w: Timeseries[], amt: number): DataAndTime[] => {
   const nextRain = w.reduce(
@@ -50,7 +50,7 @@ export const getRain = (w: Timeseries[], amt: number): DataAndTime[] => {
     },
     []
   );
-  const sliceAt = amt + 2
+  const sliceAt = amt
 
-  return nextRain.slice(2, sliceAt);
+  return nextRain.slice(0, sliceAt);
 };
