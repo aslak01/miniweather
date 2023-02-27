@@ -8,10 +8,10 @@ import { dummyIcon, dummyTemps, dummyRain } from '$lib/testing';
 
 const LAT = env.PUBLIC_LAT,
   LON = env.PUBLIC_LON,
-  TESTING = import.meta.env.DEV
+  DEV = import.meta.env.DEV
 
 export const load: PageServerLoad = async (_event) => {
-  if (LAT && LON && !TESTING) {
+  if (LAT && LON && !DEV) {
     const fetch = await getWeather(LAT, LON).then((res: Timeseries[]) => {
       console.log(res)
       return {

@@ -83,7 +83,7 @@
 	/* .icon { */
 	/* } */
 	.line {
-		width: 800px;
+		width: 100%;
 		height: 100px;
 	}
 	.weather {
