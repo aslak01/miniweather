@@ -1,37 +1,38 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { env } from '$env/dynamic/public';
-	import { getWeather, getIcon, getRain, getTemps } from '$lib/functions/index';
 	import { weathericons } from '$lib/weathericons';
 	import type { WeathericonKey } from '$lib/weathericons';
-	import type { Timeseries, DataAndTime } from '$lib/types';
-	import Rain from '$lib/components/rain.svelte';
-	import Temp from '$lib/components/temp.svelte';
+	import type { DataAndTime } from '$lib/types';
+	import type { PageData } from './$types';
+	// import Rain from '$lib/components/rain.svelte';
+	// import Temp from '$lib/components/temp.svelte';
 	import Linechart from '$lib/components/linechart.svelte';
+	import Histogram from '$lib/components/histogram.svelte';
 	import Raindrop from '$lib/icons/raindrop.svelte';
 	import Thermometer from '$lib/icons/thermometer.svelte';
 
-	const LAT = env.PUBLIC_LAT,
-		LON = env.PUBLIC_LON;
+	export let data: PageData;
 
 	let loaded = false;
-	let weather: void | null | Timeseries = null;
 	let icon: ConstructorOfATypedSvelteComponent | null = null;
+	let iconkey: null | WeathericonKey = null;
 	let rain: null | DataAndTime[] = null;
 	let temps: null | DataAndTime[] = null;
 
 	onMount(async () => {
-		LAT && LON
-			? (weather = await getWeather(LAT, LON).then((res: Timeseries[]) => {
-					console.log(res);
-					(icon as ConstructorOfATypedSvelteComponent) =
-						weathericons[getIcon(res) as WeathericonKey];
+		if (
+			typeof data !== 'undefined' &&
+			typeof data.iconkey !== 'undefined' &&
+			typeof data.rain !== 'undefined' &&
+			typeof data.temps !== 'undefined'
+		) {
+			iconkey = data.iconkey;
+			rain = data.rain;
+			temps = data.temps;
+			icon = weathericons[iconkey];
 
-					rain = getRain(res, 6);
-					temps = getTemps(res, 6);
-					loaded = true;
-			  }))
-			: (weather = null);
+			loaded = true;
+		}
 	});
 </script>
 
@@ -42,35 +43,35 @@
 				<svelte:component this={icon} />
 			</div>
 		{/if}
-      <div class="change">
-		{#if temps}
-			<div class="temps">
-				<div class="icon">
-					<Thermometer />
+		<div class="change">
+			{#if temps}
+				<div class="temps">
+					<div class="icon">
+						<Thermometer />
+					</div>
+					<div class="line">
+						<Linechart data={temps} />
+					</div>
+					<!-- {#each temps as temp} -->
+					<!-- 	<Temp {temp} /> -->
+					<!-- {/each} -->
 				</div>
-				<div class="line">
-					<Linechart data={temps} />
-				</div>
-				{#each temps as temp}
-					<Temp {temp} />
-				{/each}
-			</div>
-		{/if}
-		{#if rain}
-			<div class="rain">
-				<div class="icon">
-					<Raindrop />
-				</div>
+			{/if}
+			{#if rain}
+				<div class="rain">
+					<div class="icon">
+						<Raindrop />
+					</div>
 
-				<div class="line">
-					<Linechart data={rain} />
+					<div class="line">
+						<Histogram data={rain} />
+					</div>
+					<!-- {#each rain as r} -->
+					<!-- 	<Rain rain={r} /> -->
+					<!-- {/each} -->
 				</div>
-				{#each rain as r}
-					<Rain rain={r} />
-				{/each}
-			</div>
-		{/if}
-    </div>
+			{/if}
+		</div>
 	{/if}
 </div>
 
@@ -79,16 +80,15 @@
 	.temps {
 		display: flex;
 	}
-	.icon {
-		height: 40px;
-		width: 40px;
-	}
+	/* .icon { */
+	/* } */
 	.line {
 		width: 800px;
 		height: 100px;
 	}
-  .weather {
-    display: grid;
-    grid-template-columns: 20% 80%;
-  }
+	.weather {
+		display: grid;
+		grid-template-columns: 20% 80%;
+		align-content: center;
+	}
 </style>
