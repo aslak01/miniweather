@@ -10,15 +10,17 @@ const LAT = env.PUBLIC_LAT,
   LON = env.PUBLIC_LON,
   TESTING = import.meta.env.DEV
 
-export const load: PageServerLoad = async (event) => {
+export const load: PageServerLoad = async (_event) => {
   if (LAT && LON && !TESTING) {
-    await getWeather(LAT, LON).then((res: Timeseries[]) => {
+    const fetch = await getWeather(LAT, LON).then((res: Timeseries[]) => {
+      console.log(res)
       return {
         iconkey: getIcon(res),
         rain: getRain(res, 6),
         temps: getTemps(res, 6)
       }
     })
+    return fetch
   } else {
     return {
       iconkey: dummyIcon,
