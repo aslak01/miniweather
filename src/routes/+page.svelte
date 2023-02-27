@@ -35,13 +35,14 @@
 	});
 </script>
 
-<div>
+<div class="weather">
 	{#if loaded}
 		{#if icon}
 			<div class="icon">
 				<svelte:component this={icon} />
 			</div>
 		{/if}
+      <div class="change">
 		{#if temps}
 			<div class="temps">
 				<div class="icon">
@@ -69,6 +70,7 @@
 				{/each}
 			</div>
 		{/if}
+    </div>
 	{/if}
 </div>
 
@@ -82,7 +84,11 @@
 		width: 40px;
 	}
 	.line {
-		width: 100px;
+		width: 800px;
 		height: 100px;
 	}
+  .weather {
+    display: grid;
+    grid-template-columns: 20% 80%;
+  }
 </style>

@@ -5,7 +5,7 @@
 	export let data: DataAndTime[];
 
 	export let height = 100;
-	export let width = 100;
+	export let width = 200;
 
 	const first = data[0];
 	const last = data[data.length - 1];
@@ -32,11 +32,12 @@
 </script>
 
 <svg viewBox={`0 0 ${width} ${height}`} {height} {width}>
-	<d {line} />
+	<path d={line} />
 </svg>
 
 <style>
-	svg d {
+	svg path {
+    fill: none;
 		stroke: black;
 		stroke-width: 1px;
 	}
