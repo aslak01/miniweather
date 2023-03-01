@@ -23,7 +23,7 @@
 
 	const width = 150;
 	const margins = {
-		inline: 20,
+		inline: 30,
 		block: 15
 	};
 
