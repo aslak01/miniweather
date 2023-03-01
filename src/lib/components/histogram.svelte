@@ -1,15 +1,15 @@
 <script lang="ts">
 	import * as d3 from 'd3';
 	import type { DataAndTime } from '$lib/types';
-	import { dateToHour } from '$lib/functions';
+	// import { dateToHour } from '$lib/functions';
 
 	export let data: DataAndTime[];
 
 	export let height = 70;
-	export let width = 200;
+	export let width = 150;
 
 	export let margins = {
-		inline: 50,
+		inline: 20,
 		block: 15
 	};
 

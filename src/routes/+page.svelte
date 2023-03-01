@@ -19,6 +19,14 @@
 	let rain: null | DataAndTime[] = null;
 	let temps: null | DataAndTime[] = null;
 
+	const height = 70;
+
+	const width = 150;
+	const margins = {
+		inline: 20,
+		block: 15
+	};
+
 	onMount(async () => {
 		// if (
 		// typeof data !== 'undefined'
@@ -51,7 +59,7 @@
 						<Thermometer />
 					</div>
 					<div class="line">
-						<Linechart data={temps} />
+						<Linechart data={temps} {height} {width} {margins} />
 					</div>
 					<!-- {#each temps as temp} -->
 					<!-- 	<Temp {temp} /> -->
@@ -65,7 +73,7 @@
 					</div>
 
 					<div class="line">
-						<Histogram data={rain} />
+						<Histogram data={rain} {height} {width} {margins} />
 					</div>
 					<!-- {#each rain as r} -->
 					<!-- 	<Rain rain={r} /> -->
@@ -80,16 +88,16 @@
 	.rain,
 	.temps {
 		display: grid;
-		grid-template-columns: 10% 90%;
+		grid-template-columns: 15% 85%;
 	}
 	.icon {
 		display: grid;
 		align-content: center;
 	}
-	.icon > svg {
-		max-height: 40px;
-		max-width: 40px;
-	}
+	/* .icon > svg { */
+	/* 	max-height: 40px; */
+	/* 	max-width: 40px; */
+	/* } */
 	.line {
 		width: 100%;
 		height: 100%;
