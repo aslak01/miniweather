@@ -93,15 +93,14 @@
 		class="first"
 		x={firstCoord[0]}
 		y={firstCoord[1]}
-		dominant-baseline="middle"
-		>{dateToHour(first.date) + ' ' + first.value}</text
+		dominant-baseline="middle">{first.value}</text
 	>
 	<path d={line} />
 	<text
 		class="last"
 		x={lastCoord[0]}
 		y={lastCoord[1]}
-		dominant-baseline="middle">{dateToHour(last.date) + ' ' + last.value}</text
+		dominant-baseline="middle">{last.value}</text
 	>
 </svg>
 

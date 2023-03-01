@@ -79,13 +79,16 @@
 <style>
 	.rain,
 	.temps {
-		display: flex;
-		flex-direction: row;
+		display: grid;
+		grid-template-columns: 10% 90%;
 	}
 	.icon {
+		display: grid;
+		align-content: center;
+	}
+	.icon > svg {
 		max-height: 40px;
 		max-width: 40px;
-		flex-shrink: 0;
 	}
 	.line {
 		width: 100%;

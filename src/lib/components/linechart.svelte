@@ -4,7 +4,10 @@
 	import { dateToHour } from '$lib/functions';
 
 	export let data: DataAndTime[];
-
+	const hasAboveAndBelow0 = (arr: { value: number }[]) =>
+		arr.some((obj) => Math.sign(obj.value) === 1) &&
+		arr.some((obj) => Math.sign(obj.value) === -1);
+	const crossesNegativeAxis = hasAboveAndBelow0(data);
 	export let height = 70;
 	export let width = 200;
 
@@ -18,7 +21,6 @@
 
 	const maxY = Math.max(...data.map((d) => d.value));
 	const minY = Math.min(...data.map((d) => d.value));
-	console.log(data);
 
 	const xScale = d3
 		.scaleTime()
@@ -49,15 +51,24 @@
 		class="first"
 		x={firstCoord[0]}
 		y={firstCoord[1]}
-		dominant-baseline="middle"
-		>{dateToHour(first.date) + ' ' + first.value}</text
+		dominant-baseline="middle">{first.value}</text
 	>
 	<path d={line} />
+
+	{#if crossesNegativeAxis}
+		<line
+			x1={xScale(new Date(first.date))}
+			x2={xScale(new Date(last.date))}
+			y1={yScale(0)}
+			y2={yScale(0)}
+			stroke="black"
+		/>
+	{/if}
 	<text
 		class="last"
 		x={lastCoord[0]}
 		y={lastCoord[1]}
-		dominant-baseline="middle">{dateToHour(last.date) + ' ' + last.value}</text
+		dominant-baseline="middle">{last.value}</text
 	>
 </svg>
 
