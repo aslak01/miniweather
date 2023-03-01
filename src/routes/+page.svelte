@@ -79,12 +79,16 @@
 	.rain,
 	.temps {
 		display: flex;
+		flex-direction: row;
 	}
-	/* .icon { */
-	/* } */
+	.icon {
+		max-height: 40px;
+		max-width: 40px;
+		flex-shrink: 0;
+	}
 	.line {
 		width: 100%;
-		height: 100px;
+		height: 100%;
 	}
 	.weather {
 		display: grid;
