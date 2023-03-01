@@ -45,12 +45,19 @@
 </script>
 
 <svg viewBox={`0 0 ${width} ${height}`} {height} {width}>
-	<text class="first" x={firstCoord[0]} y={firstCoord[1]} dominant-baseline="middle"
+	<text
+		class="first"
+		x={firstCoord[0]}
+		y={firstCoord[1]}
+		dominant-baseline="middle"
 		>{dateToHour(first.date) + ' ' + first.value}</text
 	>
 	<path d={line} />
-	<text class="last" x={lastCoord[0]} y={lastCoord[1]} dominant-baseline="middle"
-		>{dateToHour(last.date) + ' ' + last.value}</text
+	<text
+		class="last"
+		x={lastCoord[0]}
+		y={lastCoord[1]}
+		dominant-baseline="middle">{dateToHour(last.date) + ' ' + last.value}</text
 	>
 </svg>
 

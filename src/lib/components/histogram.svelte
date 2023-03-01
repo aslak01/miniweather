@@ -52,15 +52,22 @@
 	): [number, number][] {
 		// this is only correct because of 0-based arrays and # segments = # points - 1
 		// const segments = data.length;
-		const segmentWidth = xScale(xAccessor(data[1])) - xScale(xAccessor(data[0]));
+		const segmentWidth =
+			xScale(xAccessor(data[1])) - xScale(xAccessor(data[0]));
 		const connectorWidth = segmentWidth * 0.05; // 5% on each side
 
 		// start with the first point, as it (and the last point) are special cases
 		let result = [[xScale(xAccessor(data[0])), yScale(yAccessor(data[0]))]];
 		// TODO: Add a bounds check here
 		for (let i = 1; i < data.length - 1; i++) {
-			result.push([xScale(xAccessor(data[i])) - connectorWidth, yScale(yAccessor(data[i - 1]))]);
-			result.push([xScale(xAccessor(data[i])) + connectorWidth, yScale(yAccessor(data[i]))]);
+			result.push([
+				xScale(xAccessor(data[i])) - connectorWidth,
+				yScale(yAccessor(data[i - 1]))
+			]);
+			result.push([
+				xScale(xAccessor(data[i])) + connectorWidth,
+				yScale(yAccessor(data[i]))
+			]);
 		}
 		// Add the final point
 		result.push([
@@ -69,19 +76,32 @@
 		]);
 		return result as [number, number][];
 	}
-	const feltonData = generateFeltonLine(data, xScale, xAccessor, yScale, yAccessor);
+	const feltonData = generateFeltonLine(
+		data,
+		xScale,
+		xAccessor,
+		yScale,
+		yAccessor
+	);
 
 	// const line = d3.line().curve(d3.curveLinear)(scaledData);
 	const line = d3.line().curve(d3.curveLinear)(feltonData);
 </script>
 
 <svg viewBox={`0 0 ${width} ${height}`} {height} {width}>
-	<text class="first" x={firstCoord[0]} y={firstCoord[1]} dominant-baseline="middle"
+	<text
+		class="first"
+		x={firstCoord[0]}
+		y={firstCoord[1]}
+		dominant-baseline="middle"
 		>{dateToHour(first.date) + ' ' + first.value}</text
 	>
 	<path d={line} />
-	<text class="last" x={lastCoord[0]} y={lastCoord[1]} dominant-baseline="middle"
-		>{dateToHour(last.date) + ' ' + last.value}</text
+	<text
+		class="last"
+		x={lastCoord[0]}
+		y={lastCoord[1]}
+		dominant-baseline="middle">{dateToHour(last.date) + ' ' + last.value}</text
 	>
 </svg>
 

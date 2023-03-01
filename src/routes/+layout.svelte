@@ -1,11 +1,10 @@
 <script lang="ts">
-  import "../app.css"
+	import '../app.css';
 </script>
 
 <main>
-<slot />
+	<slot />
 </main>
 
 <style>
-
 </style>

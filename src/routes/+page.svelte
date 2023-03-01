@@ -20,19 +20,20 @@
 	let temps: null | DataAndTime[] = null;
 
 	onMount(async () => {
-		if (
-			typeof data !== 'undefined' &&
-			typeof data.iconkey !== 'undefined' &&
-			typeof data.rain !== 'undefined' &&
-			typeof data.temps !== 'undefined'
-		) {
-			iconkey = data.iconkey;
-			rain = data.rain;
-			temps = data.temps;
-			icon = weathericons[iconkey];
+		// if (
+		// typeof data !== 'undefined'
+		// &&
+		// typeof data.iconkey !== 'undefined' &&
+		// typeof data.rain !== 'undefined' &&
+		// typeof data.temps !== 'undefined'
+		// ) {
+		iconkey = data.iconkey;
+		rain = data.rain;
+		temps = data.temps;
+		icon = weathericons[iconkey];
 
-			loaded = true;
-		}
+		loaded = true;
+		// }
 	});
 </script>
 
