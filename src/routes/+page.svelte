@@ -22,9 +22,9 @@
 
 	const height = 120;
 
-	const width = 250;
+	const width = 300;
 	const margins = {
-		inline: 30,
+		inline: 35,
 		block: 15
 	};
 	const hasRain = (el: { value: number }) => el.value > 0;
@@ -68,26 +68,20 @@
 					<div class="icon">
 						<Thermometer />
 					</div>
-					<!-- {#each temps as temp} -->
-					<!-- 	<Temp {temp} /> -->
-					<!-- {/each} -->
 				</div>
 			{/if}
 			{#if rain}
 				<div class="rain" style="--width: {width + 'px'}">
-					{#if willRain}
-						<div class="line">
-							<Histogram data={rain} {height} {width} {margins} />
-						</div>
-						<div class="icon">
-							<Raindrop />
-						</div>
-						<!-- {#each rain as r} -->
-						<!-- 	<Rain rain={r} /> -->
-						<!-- {/each} -->
-					{:else}
-						<div>Ikke noe nedbør</div>
-					{/if}
+					<!-- {#if willRain} -->
+					<div class="line">
+						<Histogram data={rain} {height} {width} {margins} />
+					</div>
+					<div class="icon">
+						<Raindrop />
+					</div>
+					<!-- {:else} -->
+					<!-- 	<div>Ikke noe nedbør</div> -->
+					<!-- {/if} -->
 				</div>
 			{/if}
 		</div>

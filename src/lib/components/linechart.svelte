@@ -12,7 +12,7 @@
 	export let width = 150;
 
 	export let margins = {
-		inline: 20,
+		inline: 30,
 		block: 15
 	};
 
