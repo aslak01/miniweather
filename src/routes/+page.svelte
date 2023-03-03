@@ -19,9 +19,9 @@
 	let rain: null | DataAndTime[] = null;
 	let temps: null | DataAndTime[] = null;
 
-	const height = 70;
+	const height = 120;
 
-	const width = 150;
+	const width = 250;
 	const margins = {
 		inline: 30,
 		block: 15
