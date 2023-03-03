@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { weathericons } from '$lib/weathericons';
-	import type { WeathericonKey } from '$lib/weathericons';
-	import type { DataAndTime } from '$lib/types';
+	import type { WeathericonKey, DataAndTime, Instant } from '$lib/types';
 	import type { PageData } from './$types';
 	// import Rain from '$lib/components/rain.svelte';
 	// import Temp from '$lib/components/temp.svelte';
@@ -18,6 +17,8 @@
 	let iconkey: null | WeathericonKey = null;
 	let rain: null | DataAndTime[] = null;
 	let temps: null | DataAndTime[] = null;
+	let instant: null | Instant = null;
+	let willRain = true;
 
 	const height = 120;
 
@@ -26,6 +27,7 @@
 		inline: 30,
 		block: 15
 	};
+	const hasRain = (el: { value: number }) => el.value > 0;
 
 	onMount(async () => {
 		// if (
@@ -38,7 +40,9 @@
 		iconkey = data.iconkey;
 		rain = data.rain;
 		temps = data.temps;
+		instant = data.instant;
 		icon = weathericons[iconkey];
+		willRain = data.rain.every(hasRain);
 
 		loaded = true;
 		// }
@@ -47,19 +51,22 @@
 
 <div class="weather">
 	{#if loaded}
-		{#if icon}
-			<div class="icon">
-				<svelte:component this={icon} />
-			</div>
+		{#if icon && instant}
+			<article class="main">
+				<h1>{instant.air_temperature}°</h1>
+				<div class="main-icon">
+					<svelte:component this={icon} />
+				</div>
+			</article>
 		{/if}
 		<div class="change">
 			{#if temps}
-				<div class="temps">
-					<div class="icon">
-						<Thermometer />
-					</div>
+				<div class="temps" style="--width: {width + 'px'}">
 					<div class="line">
 						<Linechart data={temps} {height} {width} {margins} />
+					</div>
+					<div class="icon">
+						<Thermometer />
 					</div>
 					<!-- {#each temps as temp} -->
 					<!-- 	<Temp {temp} /> -->
@@ -67,17 +74,20 @@
 				</div>
 			{/if}
 			{#if rain}
-				<div class="rain">
-					<div class="icon">
-						<Raindrop />
-					</div>
-
-					<div class="line">
-						<Histogram data={rain} {height} {width} {margins} />
-					</div>
-					<!-- {#each rain as r} -->
-					<!-- 	<Rain rain={r} /> -->
-					<!-- {/each} -->
+				<div class="rain" style="--width: {width + 'px'}">
+					{#if willRain}
+						<div class="line">
+							<Histogram data={rain} {height} {width} {margins} />
+						</div>
+						<div class="icon">
+							<Raindrop />
+						</div>
+						<!-- {#each rain as r} -->
+						<!-- 	<Rain rain={r} /> -->
+						<!-- {/each} -->
+					{:else}
+						<div>Ikke noe nedbør</div>
+					{/if}
 				</div>
 			{/if}
 		</div>
@@ -85,12 +95,32 @@
 </div>
 
 <style>
+	.weather {
+		display: grid;
+		gap: 2rem;
+		grid-template-columns: 100px auto;
+		align-content: center;
+	}
+	.main {
+		text-align: center;
+		padding-left: 0.5rem;
+	}
+	.main h1 {
+		font-size: 3rem;
+		margin-bottom: 0;
+	}
 	.rain,
 	.temps {
 		display: grid;
-		grid-template-columns: 15% 85%;
+		grid-template-columns: var(--width) auto;
 	}
 	.icon {
+		display: grid;
+		align-content: center;
+		max-width: 40px;
+		fill: #888;
+	}
+	.main-icon {
 		display: grid;
 		align-content: center;
 	}
@@ -98,13 +128,8 @@
 	/* 	max-height: 40px; */
 	/* 	max-width: 40px; */
 	/* } */
-	.line {
-		width: 100%;
-		height: 100%;
-	}
-	.weather {
-		display: grid;
-		grid-template-columns: 20% 80%;
-		align-content: center;
-	}
+	/* .line { */
+	/* 	width: 100%; */
+	/* 	height: 100%; */
+	/* } */
 </style>

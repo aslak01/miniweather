@@ -91,14 +91,14 @@
 <svg viewBox={`0 0 ${width} ${height}`} {height} {width}>
 	<text
 		class="first"
-		x={firstCoord[0]}
+		x={firstCoord[0] - 5}
 		y={firstCoord[1]}
 		dominant-baseline="middle">{first.value}</text
 	>
 	<path d={line} />
 	<text
 		class="last"
-		x={lastCoord[0]}
+		x={lastCoord[0] + 5}
 		y={lastCoord[1]}
 		dominant-baseline="middle">{last.value}</text
 	>
