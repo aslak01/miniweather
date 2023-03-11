@@ -4,10 +4,6 @@
 	// import { dateToHour } from '$lib/functions';
 
 	export let data: DataAndTime[];
-	const hasAboveAndBelow0 = (arr: { value: number }[]) =>
-		arr.some((obj) => Math.sign(obj.value) === 1) &&
-		arr.some((obj) => Math.sign(obj.value) === -1);
-	const crossesNegativeAxis = hasAboveAndBelow0(data);
 	export let height = 70;
 	export let width = 150;
   export let stroke = 4
@@ -44,6 +40,13 @@
 	const firstCoord = scaledData[0];
 	const lastCoord = scaledData[scaledData.length - 1];
 
+  const midnight = new Date().setHours(0, 0, 0)
+  const midnightX = xScale(midnight)
+
+  const noon = new Date().setHours(12, 0, 0)
+  const noonX = xScale(noon)
+  
+
 	const line = d3.line().curve(d3.curveCardinal)(scaledData);
 </script>
 
@@ -56,25 +59,23 @@
 	>
 	<path d={line} />
 
-	{#if crossesNegativeAxis}
 		<line
-			x1={xScale(new Date(first.date))}
-			x2={xScale(new Date(last.date))}
+			x1={margins.inline}
+			x2={width - margins.inline}
 			y1={yScale(0)}
 			y2={yScale(0)}
 			stroke="black"
 		/>
-	{/if}
     <line 
-      x1={xScale(new Date().setHours(12, 0, 0))}
-      x2={xScale(new Date().setHours(12, 0, 0)) + 1}
+      x1={noonX}
+      x2={noonX + 1}
       y1={margins.block}
       y2={height- margins.block}
       stroke="black"
     />
     <line 
-      x1={xScale(new Date().setHours(0, 0, 0))}
-      x2={xScale(new Date().setHours(0, 0, 0)) + 1}
+      x1={midnightX}
+      x2={midnightX + 1}
       y1={margins.block}
       y2={height- margins.block}
       stroke="black"
