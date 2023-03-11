@@ -16,7 +16,7 @@ export const getWeather = async (
 
   const next10hours = res.properties.timeseries.filter(
     (t: Timeseries) =>
-      new Date(t.time).getTime() > now + halfHrInMs &&
+      new Date(t.time).getTime() > now - halfHrInMs &&
       new Date(t.time).getTime() < now + tenHrsInMs + halfHrInMs
   );
   return next10hours;

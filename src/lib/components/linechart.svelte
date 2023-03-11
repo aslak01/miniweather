@@ -10,6 +10,7 @@
 	const crossesNegativeAxis = hasAboveAndBelow0(data);
 	export let height = 70;
 	export let width = 150;
+  export let stroke = 4
 
 	export let margins = {
 		inline: 30,
@@ -46,7 +47,7 @@
 	const line = d3.line().curve(d3.curveCardinal)(scaledData);
 </script>
 
-<svg viewBox={`0 0 ${width} ${height}`} {height} {width}>
+<svg viewBox={`0 0 ${width} ${height}`} {height} {width} style="--stroke-width: {stroke}">
 	<text
 		class="first"
 		x={firstCoord[0] - 5}
@@ -64,6 +65,20 @@
 			stroke="black"
 		/>
 	{/if}
+    <line 
+      x1={xScale(new Date().setHours(12, 0, 0))}
+      x2={xScale(new Date().setHours(12, 0, 0)) + 1}
+      y1={margins.block}
+      y2={height- margins.block}
+      stroke="black"
+    />
+    <line 
+      x1={xScale(new Date().setHours(0, 0, 0))}
+      x2={xScale(new Date().setHours(0, 0, 0)) + 1}
+      y1={margins.block}
+      y2={height- margins.block}
+      stroke="black"
+    />
 	<text
 		class="last"
 		x={lastCoord[0] + 5}
@@ -76,7 +91,7 @@
 	svg path {
 		fill: none;
 		stroke: black;
-		stroke-width: 2px;
+		stroke-width: var(--stroke-width);
 	}
 	text.first {
 		text-anchor: end;
