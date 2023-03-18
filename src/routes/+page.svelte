@@ -3,8 +3,6 @@
 	import { weathericons } from '$lib/weathericons';
 	import type { WeathericonKey, DataAndTime, Instant } from '$lib/types';
 	import type { PageData } from './$types';
-	// import Rain from '$lib/components/rain.svelte';
-	// import Temp from '$lib/components/temp.svelte';
 	import Linechart from '$lib/components/linechart.svelte';
 	import Histogram from '$lib/components/histogram.svelte';
 	import Raindrop from '$lib/icons/raindrop.svelte';
@@ -27,24 +25,18 @@
 		inline: 35,
 		block: 15
 	};
-	const hasRain = (el: { value: number }) => el.value > 0;
+	const has = (el: { value: number }) => el.value > 0;
 
 	onMount(async () => {
-		// if (
-		// typeof data !== 'undefined'
-		// &&
-		// typeof data.iconkey !== 'undefined' &&
-		// typeof data.rain !== 'undefined' &&
-		// typeof data.temps !== 'undefined'
-		// ) {
 		iconkey = data.iconkey;
 		rain = data.rain;
 		temps = data.temps;
 		instant = data.instant;
 		icon = weathericons[iconkey];
-		willRain = data.rain.every(hasRain);
+		willRain = data.rain.every(has);
 
 		loaded = true;
+    console.log(data.raw)
 		// }
 	});
 </script>

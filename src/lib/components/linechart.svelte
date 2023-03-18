@@ -59,6 +59,7 @@
 	>
 	<path d={line} />
 
+    <!-- 0 deg line -->
 		<line
 			x1={margins.inline}
 			x2={width - margins.inline}
@@ -66,6 +67,8 @@
 			y2={yScale(0)}
 			stroke="black"
 		/>
+
+    <!-- noon line  -->
     <line 
       x1={noonX}
       x2={noonX + 1}
@@ -73,6 +76,8 @@
       y2={height- margins.block}
       stroke="black"
     />
+
+    <!-- midnight line  -->
     <line 
       x1={midnightX}
       x2={midnightX + 1}

@@ -14,7 +14,6 @@ const LAT = env.PUBLIC_LAT,
 export const load: PageServerLoad = async (_event) => {
   if (LAT && LON && !DEV) {
     const fetch = await getWeather(LAT, LON).then((res: Timeseries[]) => {
-      console.log(res);
       return {
         iconkey: getIcon(res),
         rain: getRain(res, 6),
