@@ -7,7 +7,7 @@
 
 	export let height = 70;
 	export let width = 150;
-  export let stroke = 4
+	export let stroke = 4;
 
 	export let margins = {
 		inline: 20,
@@ -89,7 +89,12 @@
 	const line = d3.line().curve(d3.curveLinear)(feltonData);
 </script>
 
-<svg viewBox={`0 0 ${width} ${height}`} {height} {width} style="--stroke-width: {stroke}">
+<svg
+	viewBox={`0 0 ${width} ${height}`}
+	{height}
+	{width}
+	style="--stroke-width: {stroke}"
+>
 	<text
 		class="first"
 		x={firstCoord[0] - 5}

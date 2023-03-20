@@ -1,4 +1,5 @@
 export type { WeathericonKey } from '$lib/weathericons';
+
 export type WeatherData = {
   type: string;
   geometry: {
@@ -21,6 +22,7 @@ export type WeatherData = {
     timeseries: Timeseries[];
   };
 };
+
 export type Timeseries = {
   time: string;
   data: {

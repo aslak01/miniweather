@@ -6,7 +6,7 @@
 	export let data: DataAndTime[];
 	export let height = 70;
 	export let width = 150;
-  export let stroke = 4
+	export let stroke = 4;
 
 	export let margins = {
 		inline: 30,
@@ -40,17 +40,21 @@
 	const firstCoord = scaledData[0];
 	const lastCoord = scaledData[scaledData.length - 1];
 
-  const midnight = new Date().setHours(0, 0, 0)
-  const midnightX = xScale(midnight)
+	const midnight = new Date().setHours(0, 0, 0);
+	const midnightX = xScale(midnight);
 
-  const noon = new Date().setHours(12, 0, 0)
-  const noonX = xScale(noon)
-  
+	const noon = new Date().setHours(12, 0, 0);
+	const noonX = xScale(noon);
 
 	const line = d3.line().curve(d3.curveCardinal)(scaledData);
 </script>
 
-<svg viewBox={`0 0 ${width} ${height}`} {height} {width} style="--stroke-width: {stroke}">
+<svg
+	viewBox={`0 0 ${width} ${height}`}
+	{height}
+	{width}
+	style="--stroke-width: {stroke}"
+>
 	<text
 		class="first"
 		x={firstCoord[0] - 5}
@@ -59,32 +63,32 @@
 	>
 	<path d={line} />
 
-    <!-- 0 deg line -->
-		<line
-			x1={margins.inline}
-			x2={width - margins.inline}
-			y1={yScale(0)}
-			y2={yScale(0)}
-			stroke="black"
-		/>
+	<!-- 0 deg line -->
+	<line
+		x1={margins.inline}
+		x2={width - margins.inline}
+		y1={yScale(0)}
+		y2={yScale(0)}
+		stroke="black"
+	/>
 
-    <!-- noon line  -->
-    <line 
-      x1={noonX}
-      x2={noonX + 1}
-      y1={margins.block}
-      y2={height- margins.block}
-      stroke="black"
-    />
+	<!-- noon line  -->
+	<line
+		x1={noonX}
+		x2={noonX + 1}
+		y1={margins.block}
+		y2={height - margins.block}
+		stroke="black"
+	/>
 
-    <!-- midnight line  -->
-    <line 
-      x1={midnightX}
-      x2={midnightX + 1}
-      y1={margins.block}
-      y2={height- margins.block}
-      stroke="black"
-    />
+	<!-- midnight line  -->
+	<line
+		x1={midnightX}
+		x2={midnightX + 1}
+		y1={margins.block}
+		y2={height - margins.block}
+		stroke="black"
+	/>
 	<text
 		class="last"
 		x={lastCoord[0] + 5}

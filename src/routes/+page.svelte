@@ -7,6 +7,7 @@
 	import Histogram from '$lib/components/histogram.svelte';
 	import Raindrop from '$lib/icons/raindrop.svelte';
 	import Thermometer from '$lib/icons/thermometer.svelte';
+	import Train from '$lib/components/train.svelte';
 
 	export let data: PageData;
 
@@ -16,7 +17,8 @@
 	let rain: null | DataAndTime[] = null;
 	let temps: null | DataAndTime[] = null;
 	let instant: null | Instant = null;
-	let willRain = true;
+
+	const northbound = data.splitTrains?.northbound;
 
 	const height = 120;
 
@@ -25,18 +27,19 @@
 		inline: 35,
 		block: 15
 	};
-	const has = (el: { value: number }) => el.value > 0;
+	// const has = (el: { value: number }) => el.value > 0;
 
 	onMount(async () => {
-		iconkey = data.iconkey;
-		rain = data.rain;
-		temps = data.temps;
-		instant = data.instant;
+		const weather = data.weather;
+		if (typeof weather === 'undefined') return;
+		iconkey = weather.iconkey;
+		rain = weather.rain;
+		temps = weather.temps;
+		instant = weather.instant || null;
 		icon = weathericons[iconkey];
-		willRain = data.rain.every(has);
 
 		loaded = true;
-    console.log(data.raw)
+		console.log(data.raw);
 		// }
 	});
 </script>
@@ -79,6 +82,13 @@
 		</div>
 	{/if}
 </div>
+{#if northbound}
+	<div class="trains">
+		{#each northbound as train (train.time)}
+			<Train {train} />
+		{/each}
+	</div>
+{/if}
 
 <style>
 	.weather {
@@ -109,6 +119,12 @@
 	.main-icon {
 		display: grid;
 		align-content: center;
+	}
+	.trains {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		max-width: 480px;
 	}
 	/* .icon > svg { */
 	/* 	max-height: 40px; */
