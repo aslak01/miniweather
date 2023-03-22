@@ -1,47 +1,48 @@
 type DestinationDisplay = {
-	frontText: string;
+  frontText: string;
 };
 type Line = {
-	publicCode: string;
-	transportMode: string;
-	name: string;
+  publicCode: string;
+  transportMode: string;
+  name: string;
 };
 type Quay = {
-	id: string;
-	name: string;
+  id: string;
+  name: string;
 };
 
 export type StopToStopGeometries = {
-	toQuay: Quay;
+  toQuay: Quay;
 };
 
 type JourneyPattern = {
-	stopToStopGeometries: StopToStopGeometries[];
+  stopToStopGeometries: StopToStopGeometries[];
 };
 
 type ServiceJourney = {
-	line: Line;
-	journeyPattern: JourneyPattern;
+  line: Line;
+  journeyPattern: JourneyPattern;
 };
 
 export type TrainData = {
-	expectedDepartureTime: string;
-	destinationDisplay: DestinationDisplay;
-	cancellation: boolean;
-	predictionInaccurate: boolean;
-	aimedArrivalTime: string;
-	aimedDepartureTime: string;
-	serviceJourney: ServiceJourney;
+  expectedDepartureTime: string;
+  destinationDisplay: DestinationDisplay;
+  cancellation: boolean;
+  predictionInaccurate: boolean;
+  aimedArrivalTime: string;
+  aimedDepartureTime: string;
+  serviceJourney: ServiceJourney;
 };
 
 export type RelevantTrainInfo = {
-	line: string;
-	display: string;
-	time: number;
-	diff: number;
+  line: string;
+  display: string;
+  time: string;
+  diff: number;
+  delay: number
 };
 
 export type SortedTrainData = {
-	northbound: RelevantTrainInfo[];
-	southbound: RelevantTrainInfo[];
+  northbound: RelevantTrainInfo[];
+  southbound: RelevantTrainInfo[];
 };

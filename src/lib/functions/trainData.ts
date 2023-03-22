@@ -4,7 +4,7 @@ import type {
   SortedTrainData,
   StopToStopGeometries
 } from '../types';
-import { dateStringToMinFromNow, timeDiffInMin } from './date';
+import { dateStringToMin, dateStringToMinFromNow, timeDiffInMin } from './date';
 
 export const getTrains = async (): Promise<TrainData[]> => {
   const myHeaders = new Headers();
@@ -71,12 +71,13 @@ export const extractLineNamesAndRelTime = (
 ): RelevantTrainInfo => {
   const expected = train.expectedDepartureTime;
   const aimed = train.aimedDepartureTime;
-  const diff = timeDiffInMin(expected, aimed);
+  const delay = timeDiffInMin(expected, aimed);
   return {
     line: train.serviceJourney.line.publicCode,
     display: train.destinationDisplay.frontText,
-    time: dateStringToMinFromNow(expected),
-    diff
+    time: dateStringToMin(expected),
+    diff: dateStringToMinFromNow(expected),
+    delay
   };
 };
 
@@ -91,10 +92,10 @@ export const splitAndCleanTrains = (data: TrainData[]): SortedTrainData => {
     return askerIndex < osloIndex;
   };
   const tooSoon = (d: RelevantTrainInfo) => {
-    return d.time > 15;
+    return d.diff > 15;
   };
   const tooLate = (d: RelevantTrainInfo) => {
-    return d.time < 600;
+    return d.diff < 600;
   };
   const noFlytog = (d: RelevantTrainInfo) => {
     return d.line.includes('FLY') === false;
@@ -105,14 +106,14 @@ export const splitAndCleanTrains = (data: TrainData[]): SortedTrainData => {
     .filter(tooSoon)
     .filter(tooLate)
     .filter(noFlytog)
-    .slice(0, 5);
+    .slice(0, 4);
   const southbound = data
     .filter((train: TrainData) => askerBeforeOslo(train) === false)
     .map(extractLineNamesAndRelTime)
     .filter(tooSoon)
     .filter(tooLate)
     .filter(noFlytog)
-    .slice(0, 5);
+    .slice(0, 4);
 
   return {
     northbound,

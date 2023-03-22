@@ -1,16 +1,15 @@
 <script lang="ts">
 	import type { RelevantTrainInfo } from '$lib/types';
-	import { minsToHrMins } from '$lib/functions';
 	export let train: RelevantTrainInfo;
 </script>
 
 <div class="train">
-	<span>
-		{train.line}:
-	</span>
-	<strong>{minsToHrMins(train.time)}</strong>
-	{#if train.diff > 0}
-		<strong>!! {train.diff}</strong>
+	<span>{train.line}</span>
+	<strong>{train.time}</strong>
+	{#if train.delay >= 0}
+		<div class="delay">
+			<span>!!</span><strong>{train.delay + 10}</strong>
+		</div>
 	{/if}
 </div>
 
@@ -18,9 +17,18 @@
 	.train {
 		font-size: 1.3rem;
 		max-width: 480px;
-		padding-inline: 0.5rem;
 	}
-	span {
+	.train:first-child {
+		padding-left: 0.5rem;
+	}
+	.train:last-child {
+		padding-right: 0.5rem;
+	}
+	span,
+	.delay {
 		font-size: 1rem;
+	}
+	.delay {
+		display: inline;
 	}
 </style>
