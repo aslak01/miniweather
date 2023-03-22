@@ -6,9 +6,9 @@
 <div class="train">
 	<span>{train.line}</span>
 	<strong>{train.time}</strong>
-	{#if train.delay >= 0}
+	{#if train.delay > 0}
 		<div class="delay">
-			<span>!!</span><strong>{train.delay + 10}</strong>
+			<span>!!</span><strong>{train.delay}</strong>
 		</div>
 	{/if}
 </div>
