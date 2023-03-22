@@ -18,3 +18,11 @@ export const timeDiffInMin = (d1: string, d2: string): number => {
 	const dt2 = dayjs(d2);
 	return dt1.diff(dt2, 'minute');
 };
+
+export const minsToHrMins = (m: number | string): string => {
+	const n = Number(m);
+	const hrs = Math.floor(n / 60);
+	const mns = n % 60;
+	const string = hrs ? hrs + ':' + mns : mns;
+	return String(string);
+};
