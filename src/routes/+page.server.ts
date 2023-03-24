@@ -12,7 +12,7 @@ import {
   splitAndCleanTrains
 } from '$lib/functions/index';
 
-import { dummyIcon, dummyTemps, dummyRain, dummyInstant } from '$lib/testing';
+import { dummyIcon, dummyTemps, dummyRain, dummyInstant, dummyTrains } from '$lib/testing';
 
 const LAT = env.PUBLIC_LAT,
   LON = env.PUBLIC_LON,
@@ -44,7 +44,7 @@ export const load: PageServerLoad = async (_event) => {
         instant: dummyInstant,
         raw: []
       },
-      splitTrains: {}
+      splitTrains: { northbound: dummyTrains }
     };
   }
 };

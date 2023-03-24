@@ -5,7 +5,7 @@
 
 	export let data: DataAndTime[];
 	export let height = 70;
-	export let width = 150;
+	export let width = 130;
 	export let stroke = 4;
 
 	export let margins = {

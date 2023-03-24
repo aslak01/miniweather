@@ -1,4 +1,4 @@
-import type { DataAndTime, Instant } from './types';
+import type { DataAndTime, Instant, RelevantTrainInfo } from './types';
 import type { WeathericonKey } from './weathericons';
 
 export const dummyTemps: DataAndTime[] = [
@@ -51,3 +51,14 @@ export const dummyInstant: Instant = {
   wind_from_direction: 6,
   wind_speed: 2
 }
+
+export const dummyTrains: RelevantTrainInfo[] = [
+  {
+    line: "l1",
+    display: "høn",
+    time: "12",
+    diff: 12,
+    delay: 12
+  }
+]
+
