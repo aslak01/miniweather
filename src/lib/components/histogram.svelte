@@ -1,13 +1,17 @@
 <script lang="ts">
 	import * as d3 from 'd3';
 	import type { DataAndTime } from '$lib/types';
-	// import { dateToHour } from '$lib/functions';
+	import {
+		generateFeltonLine,
+		generateClosedFeltonPolygon,
+		generatePoissonPoints
+	} from '$lib/functions';
 
 	export let data: DataAndTime[];
 
 	export let height = 70;
 	export let width = 150;
-	export let stroke = 4;
+	export let stroke = 0.5;
 
 	export let margins = {
 		inline: 20,
@@ -44,40 +48,16 @@
 	const firstCoord = scaledData[0];
 	const lastCoord = scaledData[scaledData.length - 1];
 
-	function generateFeltonLine(
-		data: DataAndTime[],
-		xScale: (arg: Date) => number,
-		xAccessor: (arg: DataAndTime) => Date,
-		yScale: (arg: number) => number,
-		yAccessor: (arg: DataAndTime) => number
-	): [number, number][] {
-		// this is only correct because of 0-based arrays and # segments = # points - 1
-		// const segments = data.length;
-		const segmentWidth =
-			xScale(xAccessor(data[1])) - xScale(xAccessor(data[0]));
-		const connectorWidth = segmentWidth * 0.05; // 5% on each side
-
-		// start with the first point, as it (and the last point) are special cases
-		let result = [[xScale(xAccessor(data[0])), yScale(yAccessor(data[0]))]];
-		// TODO: Add a bounds check here
-		for (let i = 1; i < data.length - 1; i++) {
-			result.push([
-				xScale(xAccessor(data[i])) - connectorWidth,
-				yScale(yAccessor(data[i - 1]))
-			]);
-			result.push([
-				xScale(xAccessor(data[i])) + connectorWidth,
-				yScale(yAccessor(data[i]))
-			]);
-		}
-		// Add the final point
-		result.push([
-			xScale(xAccessor(data[data.length - 1])),
-			yScale(yAccessor(data[data.length - 1]))
-		]);
-		return result as [number, number][];
-	}
 	const feltonData = generateFeltonLine(
+		data,
+		xScale,
+		xAccessor,
+		yScale,
+		yAccessor
+	);
+
+	const points = generatePoissonPoints(width, height - margins.block / 4, 12);
+	const closedPoly = generateClosedFeltonPolygon(
 		data,
 		xScale,
 		xAccessor,
@@ -87,6 +67,7 @@
 
 	// const line = d3.line().curve(d3.curveLinear)(scaledData);
 	const line = d3.line().curve(d3.curveLinear)(feltonData);
+	// const line = d3.line().curve(d3.curveLinear)(closedPoly);
 </script>
 
 <svg
@@ -95,6 +76,34 @@
 	{width}
 	style="--stroke-width: {stroke}"
 >
+	<!-- The following technique is from: -->
+	<!-- https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/ -->
+	<!-- <filter id="outline"> -->
+	<!-- 	<feMorphology -->
+	<!-- 		in="SourceAlpha" -->
+	<!-- 		result="DILATED" -->
+	<!-- 		operator="dilate" -->
+	<!-- 		radius="5" -->
+	<!-- 	/> -->
+	<!-- 	<feFlood -->
+	<!-- 		flood-color="rgba(255, 255, 255, 1)" -->
+	<!-- 		flood-opacity="1" -->
+	<!-- 		result="BACKGROUND" -->
+	<!-- 	/> -->
+	<!-- 	<feComposite in="BACKGROUND" in2="DILATED" operator="in" result="OUTLINE" /> -->
+	<!---->
+	<!-- 	<feMerge> -->
+	<!-- 		<feMergeNode in="OUTLINE" /> -->
+	<!-- 		<feMergeNode in="SourceGraphic" /> -->
+	<!-- 	</feMerge> -->
+	<!-- </filter> -->
+
+	{#each points as point}
+		{#if d3.polygonContains(closedPoly, [point[0], point[1]])}
+			<circle class="stipple" cx={point[0]} cy={point[1]} r={2.5} />
+		{/if}
+	{/each}
+
 	<text
 		class="first"
 		x={firstCoord[0] - 5}
@@ -121,5 +130,8 @@
 	}
 	text.last {
 		text-anchor: start;
+	}
+	.stipple {
+		stroke-width: 0px;
 	}
 </style>

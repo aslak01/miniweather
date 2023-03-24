@@ -35,11 +35,10 @@
 		iconkey = weather.iconkey;
 		rain = weather.rain;
 		temps = weather.temps;
-		instant = weather.instant || null;
+		instant = weather?.instant || null;
 		icon = weathericons[iconkey];
 
 		loaded = true;
-		console.log(data.raw);
 		// }
 	});
 </script>
