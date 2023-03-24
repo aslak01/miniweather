@@ -120,6 +120,8 @@
 		align-content: center;
 	}
 	.trains {
+		border-top: 2px solid;
+		background: #eee;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;

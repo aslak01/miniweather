@@ -9,7 +9,7 @@
 	export let stroke = 4;
 
 	export let margins = {
-		inline: 30,
+		inline: 40,
 		block: 15
 	};
 
@@ -55,15 +55,24 @@
 	{width}
 	style="--stroke-width: {stroke}"
 >
+	<defs>
+		<filter x="0" y="0" width="1" height="1" id="bg-solid">
+			<feFlood flood-color="white" result="bg" />
+			<feMerge>
+				<feMergeNode in="bg" />
+				<feMergeNode in="SourceGraphic" />
+			</feMerge>
+		</filter>
+	</defs>
 	<text
 		class="first"
+		filter="url(#bg-solid)"
 		x={firstCoord[0] - 5}
 		y={firstCoord[1]}
-		dominant-baseline="middle">{first.value}</text
+		dominant-baseline="middle">{first.value}°</text
 	>
 	<path d={line} />
 
-	<!-- 0 deg line -->
 	<line
 		x1={margins.inline}
 		x2={width - margins.inline}
@@ -71,6 +80,22 @@
 		y2={yScale(0)}
 		stroke="black"
 	/>
+
+	{#each [-30, -20, -10, 0, 10, 20, 30] as n}
+		<text
+			class="first"
+			x={margins.inline - 5}
+			y={yScale(n)}
+			dominant-baseline="middle">{n}°</text
+		>
+		<line
+			x1={margins.inline}
+			x2={width - margins.inline}
+			y1={yScale(n)}
+			y2={yScale(n)}
+			stroke="black"
+		/>
+	{/each}
 
 	<!-- noon line  -->
 	<line
@@ -91,9 +116,10 @@
 	/>
 	<text
 		class="last"
-		x={lastCoord[0] + 5}
+		filter="url(#bg-solid)"
+		x={lastCoord[0] + 2}
 		y={lastCoord[1]}
-		dominant-baseline="middle">{last.value}</text
+		dominant-baseline="middle">{last.value}°</text
 	>
 </svg>
 

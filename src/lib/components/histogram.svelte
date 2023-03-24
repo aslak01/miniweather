@@ -14,14 +14,15 @@
 	export let stroke = 3;
 
 	export let margins = {
-		inline: 20,
+		inline: 35,
 		block: 15
 	};
 
 	const first = data[0];
 	const last = data[data.length - 1];
 
-	const maxY = Math.max(...data.map((d) => d.value));
+	const minOne = (n: number) => (n > 1 ? n : 1.1);
+	const maxY = minOne(Math.max(...data.map((d) => d.value)));
 	const minY = Math.min(...data.map((d) => d.value));
 
 	const xAccessor = (d: DataAndTime) => new Date(d.date);
@@ -76,6 +77,15 @@
 	{width}
 	style="--stroke-width: {stroke}"
 >
+	<defs>
+		<filter x="0" y="0" width="1" height="1" id="bg-solid">
+			<feFlood flood-color="white" result="bg" />
+			<feMerge>
+				<feMergeNode in="bg" />
+				<feMergeNode in="SourceGraphic" />
+			</feMerge>
+		</filter>
+	</defs>
 	<!-- The following technique is from: -->
 	<!-- https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/ -->
 	<!-- <filter id="outline"> -->
@@ -106,13 +116,30 @@
 
 	<text
 		class="first"
+		filter="url(#bg-solid)"
 		x={firstCoord[0] - 5}
 		y={firstCoord[1]}
 		dominant-baseline="middle">{first.value}</text
 	>
 	<path d={line} />
+	{#each [1, 10, 20, 30] as n}
+		<text
+			class="first"
+			x={margins.inline - 5}
+			y={yScale(n)}
+			dominant-baseline="middle">{n}</text
+		>
+		<line
+			x1={margins.inline}
+			x2={width - margins.inline}
+			y1={yScale(n)}
+			y2={yScale(n)}
+			stroke="black"
+		/>
+	{/each}
 	<text
 		class="last"
+		filter="url(#bg-solid)"
 		x={lastCoord[0] + 5}
 		y={lastCoord[1]}
 		dominant-baseline="middle">{last.value}</text

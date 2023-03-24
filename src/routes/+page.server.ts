@@ -31,7 +31,6 @@ export const load: PageServerLoad = async (_event) => {
     });
     const trains = await getTrains();
     const splitTrains = splitAndCleanTrains(trains);
-    console.log(splitTrains);
     return {
       weather,
       splitTrains
