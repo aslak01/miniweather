@@ -121,7 +121,9 @@
 	}
 	.trains {
 		border-top: 2px solid;
-		background: #eee;
+		background: black;
+		color: white;
+		padding-block: 2px;
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
