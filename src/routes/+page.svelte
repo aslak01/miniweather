@@ -1,87 +1,50 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { weathericons } from '$lib/weathericons';
-	import type { WeathericonKey, DataAndTime, Instant } from '$lib/types';
 	import type { PageData } from './$types';
+	import { weathericons } from '$lib/weathericons';
 	import Linechart from '$lib/components/linechart.svelte';
 	import Histogram from '$lib/components/histogram.svelte';
-	import Raindrop from '$lib/icons/raindrop.svelte';
-	import Thermometer from '$lib/icons/thermometer.svelte';
 	import Train from '$lib/components/train.svelte';
 
 	export let data: PageData;
 
 	let loaded = false;
-	let icon: ConstructorOfATypedSvelteComponent | null = null;
-	let iconkey: null | WeathericonKey = null;
-	let rain: null | DataAndTime[] = null;
-	let temps: null | DataAndTime[] = null;
-	let instant: null | Instant = null;
 
-	const northbound = data.splitTrains?.northbound;
-
-	const height = 120;
-
-	const width = 300;
+	const height = 100;
+	const width = 350;
 	const margins = {
-		inline: 35,
+		inline: 40,
 		block: 15
 	};
-	// const has = (el: { value: number }) => el.value > 0;
 
-	onMount(async () => {
-		const weather = data.weather;
-		if (typeof weather === 'undefined') return;
-		iconkey = weather.iconkey;
-		rain = weather.rain;
-		temps = weather.temps;
-		instant = weather?.instant || null;
-		icon = weathericons[iconkey];
+	const { iconkey, rain, temps, instant } = data.weather;
+	const icon = weathericons[iconkey];
+	const northbound = data.splitTrains.northbound;
 
-		loaded = true;
-		// }
-	});
+	loaded = true;
+	// }
 </script>
 
-<div class="weather">
-	{#if loaded}
-		{#if icon && instant}
-			<article class="main">
-				<h1>{instant.air_temperature}°</h1>
-				<div class="main-icon">
-					<svelte:component this={icon} />
-				</div>
-			</article>
-		{/if}
+{#if loaded}
+	<div class="weather">
+		<article class="main">
+			<h1>{instant.air_temperature}°</h1>
+			<div class="main-icon">
+				<svelte:component this={icon} />
+			</div>
+		</article>
 		<div class="change">
-			{#if temps}
-				<div class="temps" style="--width: {width + 'px'}">
-					<div class="line">
-						<Linechart data={temps} {height} {width} {margins} />
-					</div>
-					<div class="icon">
-						<Thermometer />
-					</div>
+			<div class="temps" style="--width: {width + 'px'}">
+				<div class="line">
+					<Linechart data={temps} {height} {width} {margins} />
 				</div>
-			{/if}
-			{#if rain}
-				<div class="rain" style="--width: {width + 'px'}">
-					<!-- {#if willRain} -->
-					<div class="line">
-						<Histogram data={rain} {height} {width} {margins} />
-					</div>
-					<div class="icon">
-						<Raindrop />
-					</div>
-					<!-- {:else} -->
-					<!-- 	<div>Ikke noe nedbør</div> -->
-					<!-- {/if} -->
+			</div>
+			<div class="rain" style="--width: {width + 'px'}">
+				<div class="line">
+					<Histogram data={rain} {height} {width} {margins} />
 				</div>
-			{/if}
+			</div>
 		</div>
-	{/if}
-</div>
-{#if northbound}
+	</div>
 	<div class="trains">
 		{#each northbound as train (train.time)}
 			<Train {train} />
@@ -91,10 +54,15 @@
 
 <style>
 	.weather {
+		padding-block: 0.5rem;
 		display: grid;
-		gap: 2rem;
+		gap: 1rem;
 		grid-template-columns: 100px auto;
-		align-content: center;
+		width: 100%;
+		max-width: 480px;
+		max-height: 280px;
+		overflow: hidden;
+		/* align-content: center; */
 	}
 	.main {
 		text-align: center;
@@ -109,32 +77,18 @@
 		display: grid;
 		grid-template-columns: var(--width) auto;
 	}
-	.icon {
-		display: grid;
-		align-content: center;
-		max-width: 40px;
-		fill: #888;
-	}
 	.main-icon {
 		display: grid;
 		align-content: center;
 	}
 	.trains {
-		border-top: 2px solid;
 		background: black;
 		color: white;
-		padding-block: 2px;
+		padding-inline: 0.5rem;
 		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-		max-width: 480px;
+		justify-content: space-around;
+		align-items: center;
+		width: 100%;
+		height: 56px;
 	}
-	/* .icon > svg { */
-	/* 	max-height: 40px; */
-	/* 	max-width: 40px; */
-	/* } */
-	/* .line { */
-	/* 	width: 100%; */
-	/* 	height: 100%; */
-	/* } */
 </style>

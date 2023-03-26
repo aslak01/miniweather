@@ -12,11 +12,18 @@ import {
   splitAndCleanTrains
 } from '$lib/functions/index';
 
-import { dummyIcon, dummyTemps, dummyRain, dummyInstant, dummyTrains } from '$lib/testing';
+import {
+  dummyIcon,
+  dummyTemps,
+  dummyRain,
+  dummyInstant,
+  dummyTrains
+} from '$lib/testing';
 
 const LAT = env.PUBLIC_LAT,
   LON = env.PUBLIC_LON,
   // DEV = import.meta.env.DEV;
+  // DEV = true;
   DEV = false;
 
 export const load: PageServerLoad = async (_event) => {

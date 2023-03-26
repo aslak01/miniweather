@@ -49,6 +49,12 @@
 	const firstCoord = scaledData[0];
 	const lastCoord = scaledData[scaledData.length - 1];
 
+	const midnight = new Date().setHours(0, 0, 0);
+	const midnightX = xScale(midnight);
+
+	const noon = new Date().setHours(12, 0, 0);
+	const noonX = xScale(noon);
+
 	const feltonData = generateFeltonLine(
 		data,
 		xScale,
@@ -108,19 +114,35 @@
 	<!-- 	</feMerge> -->
 	<!-- </filter> -->
 
+	<line
+		x1={noonX}
+		x2={noonX + 1}
+		y1={margins.block}
+		y2={height - margins.block}
+		stroke="black"
+	/>
+
+	<!-- midnight line  -->
+	<line
+		x1={midnightX}
+		x2={midnightX + 1}
+		y1={margins.block}
+		y2={height - margins.block}
+		stroke="black"
+	/>
 	{#each points as point}
 		{#if d3.polygonContains(closedPoly, [point[0], point[1]])}
 			<circle class="stipple" cx={point[0]} cy={point[1]} r={2.5} />
 		{/if}
 	{/each}
 
-	<text
-		class="first"
-		filter="url(#bg-solid)"
-		x={firstCoord[0] - 5}
-		y={firstCoord[1]}
-		dominant-baseline="middle">{first.value}</text
-	>
+	<!-- <text -->
+	<!-- 	class="first" -->
+	<!-- 	filter="url(#bg-solid)" -->
+	<!-- 	x={firstCoord[0] - 5} -->
+	<!-- 	y={firstCoord[1]} -->
+	<!-- 	dominant-baseline="middle">{first.value}</text -->
+	<!-- > -->
 	<path d={line} />
 	{#each [1, 10, 20, 30] as n}
 		<text
@@ -137,13 +159,14 @@
 			stroke="black"
 		/>
 	{/each}
-	<text
-		class="last"
-		filter="url(#bg-solid)"
-		x={lastCoord[0] + 5}
-		y={lastCoord[1]}
-		dominant-baseline="middle">{last.value}</text
-	>
+	<!-- noon line  -->
+	<!-- <text -->
+	<!-- 	class="last" -->
+	<!-- 	filter="url(#bg-solid)" -->
+	<!-- 	x={lastCoord[0] + 5} -->
+	<!-- 	y={lastCoord[1]} -->
+	<!-- 	dominant-baseline="middle">{last.value}</text -->
+	<!-- > -->
 </svg>
 
 <style>

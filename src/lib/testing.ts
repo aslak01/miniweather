@@ -17,6 +17,10 @@ export const dummyTemps: DataAndTime[] = [
   {
     value: 18.9,
     date: '2023-02-27T12:00:00Z'
+  },
+  {
+    value: 14,
+    date: '2023-02-27T13:00:00Z'
   }
 ];
 export const dummyRain: DataAndTime[] = [
@@ -50,15 +54,36 @@ export const dummyInstant: Instant = {
   relative_humidity: 12,
   wind_from_direction: 6,
   wind_speed: 2
-}
+};
 
 export const dummyTrains: RelevantTrainInfo[] = [
   {
-    line: "l1",
-    display: "høn",
-    time: "12",
+    line: 'l1',
+    display: 'høn',
+    time: '12',
+    diff: 12,
+    delay: 12
+  },
+
+  {
+    line: 'l1',
+    display: 'høn',
+    time: '12',
+    diff: 12,
+    delay: 12
+  },
+  {
+    line: 'l1',
+    display: 'høn',
+    time: '12',
+    diff: 12,
+    delay: 12
+  },
+  {
+    line: 'l1',
+    display: 'høn',
+    time: '12',
     diff: 12,
     delay: 12
   }
-]
-
+];

@@ -64,13 +64,13 @@
 			</feMerge>
 		</filter>
 	</defs>
-	<text
-		class="first"
-		filter="url(#bg-solid)"
-		x={firstCoord[0] - 5}
-		y={firstCoord[1]}
-		dominant-baseline="middle">{first.value}°</text
-	>
+	<!-- <text -->
+	<!-- 	class="first" -->
+	<!-- 	filter="url(#bg-solid)" -->
+	<!-- 	x={firstCoord[0] - 5} -->
+	<!-- 	y={firstCoord[1]} -->
+	<!-- 	dominant-baseline="middle">{first.value}°</text -->
+	<!-- > -->
 	<path d={line} />
 
 	<line
@@ -114,13 +114,13 @@
 		y2={height - margins.block}
 		stroke="black"
 	/>
-	<text
-		class="last"
-		filter="url(#bg-solid)"
-		x={lastCoord[0] + 2}
-		y={lastCoord[1]}
-		dominant-baseline="middle">{last.value}°</text
-	>
+	<!-- <text -->
+	<!-- 	class="last" -->
+	<!-- 	filter="url(#bg-solid)" -->
+	<!-- 	x={lastCoord[0] + 2} -->
+	<!-- 	y={lastCoord[1]} -->
+	<!-- 	dominant-baseline="middle">{last.value}°</text -->
+	<!-- > -->
 </svg>
 
 <style>

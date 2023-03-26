@@ -15,18 +15,14 @@
 
 <style>
 	.train {
-		font-size: 1.3rem;
-		max-width: 480px;
+		font-size: 1.8rem;
 	}
-	.train:first-child {
-		padding-left: 0.5rem;
-	}
-	.train:last-child {
-		padding-right: 0.5rem;
+	.train strong {
+		font-weight: 800;
 	}
 	span,
 	.delay {
-		font-size: 1rem;
+		font-size: 1.2rem;
 	}
 	.delay {
 		display: inline;
