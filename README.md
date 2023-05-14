@@ -1,5 +1,1 @@
-yr weather forecast from locationforecast/2.0 and weathericon/2.0 minimal webapp
-
-https://api.met.no/weatherapi/weathericon/2.0/documentation
-
-https://developer.yr.no/doc/locationforecast/HowTO/
+yr weather forecast from [locationforecast/2.0](https://developer.yr.no/doc/locationforecast/HowTO/) and [weathericon/2.0](https://api.met.no/weatherapi/weathericon/2.0/documentation) minimal webapp indended for display on a [3.7 in Waveshare e-paper display](https://www.waveshare.com/3.7inch-e-paper-hat.htm) on a Raspberry pi, currently using on the [epaper.js](https://github.com/samsonmking/epaper.js) library to render the image of the website.
