@@ -9,7 +9,7 @@
 
 	export let data: DataAndTime[];
 
-	export let height = 70;
+	export let height = 150;
 	export let width = 130;
 	export let stroke = 3;
 
@@ -39,15 +39,15 @@
 		.range([height - margins.block, margins.block])
 		.nice();
 
-	const scaleData = (d: DataAndTime): [number, number] => [
-		xScale(new Date(d.date)),
-		yScale(d.value)
-	];
+	// const scaleData = (d: DataAndTime): [number, number] => [
+	// 	xScale(new Date(d.date)),
+	// 	yScale(d.value)
+	// ];
 
-	const scaledData = data.map(scaleData);
+	// const scaledData = data.map(scaleData);
 
-	const firstCoord = scaledData[0];
-	const lastCoord = scaledData[scaledData.length - 1];
+	// const firstCoord = scaledData[0];
+	// const lastCoord = scaledData[scaledData.length - 1];
 
 	const midnight = new Date().setHours(0, 0, 0);
 	const midnightX = xScale(midnight);
@@ -83,15 +83,15 @@
 	{width}
 	style="--stroke-width: {stroke}"
 >
-	<defs>
-		<filter x="0" y="0" width="1" height="1" id="bg-solid">
-			<feFlood flood-color="white" result="bg" />
-			<feMerge>
-				<feMergeNode in="bg" />
-				<feMergeNode in="SourceGraphic" />
-			</feMerge>
-		</filter>
-	</defs>
+	<!-- <defs> -->
+	<!-- 	<filter x="0" y="0" width="1" height="1" id="bg-solid"> -->
+	<!-- 		<feFlood flood-color="white" result="bg" /> -->
+	<!-- 		<feMerge> -->
+	<!-- 			<feMergeNode in="bg" /> -->
+	<!-- 			<feMergeNode in="SourceGraphic" /> -->
+	<!-- 		</feMerge> -->
+	<!-- 	</filter> -->
+	<!-- </defs> -->
 	<!-- The following technique is from: -->
 	<!-- https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/ -->
 	<!-- <filter id="outline"> -->
@@ -144,13 +144,15 @@
 	<!-- 	dominant-baseline="middle">{first.value}</text -->
 	<!-- > -->
 	<path d={line} />
-	{#each [1, 10, 20, 30] as n}
+	{#each [0, 5, 10, 15, 20, 25, 30] as n}
 		<text
-			class="first"
-			x={margins.inline - 5}
+			class="last"
+			x={width - margins.inline + 5}
 			y={yScale(n)}
-			dominant-baseline="middle">{n}</text
-		>
+			alignment-baseline="middle"
+			>{n}
+			<tspan class="small" alignment-baseline="auto">mm</tspan>
+		</text>
 		<line
 			x1={margins.inline}
 			x2={width - margins.inline}
@@ -172,14 +174,24 @@
 <style>
 	svg path {
 		fill: none;
-		stroke: black;
 		stroke-width: var(--stroke-width);
 	}
-	text.first {
-		text-anchor: end;
+	svg path,
+	svg line {
+		stroke: #888;
 	}
+	svg text,
+	svg circle {
+		fill: #888;
+	}
+	/* text.first { */
+	/* 	text-anchor: end; */
+	/* } */
 	text.last {
 		text-anchor: start;
+	}
+	text .small {
+		font-size: 0.5em;
 	}
 	.stipple {
 		stroke-width: 0px;

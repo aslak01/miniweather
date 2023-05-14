@@ -9,7 +9,7 @@
 
 	let loaded = false;
 
-	const height = 100;
+	const height = 180;
 	const width = 350;
 	const margins = {
 		inline: 40,
@@ -27,20 +27,20 @@
 {#if loaded}
 	<div class="weather">
 		<article class="main">
-			<h1>{instant.air_temperature}°</h1>
+			<h1>{Math.round(instant.air_temperature)}°</h1>
 			<div class="main-icon">
 				<svelte:component this={icon} />
 			</div>
 		</article>
 		<div class="change">
-			<div class="temps" style="--width: {width + 'px'}">
-				<div class="line">
-					<Linechart data={temps} {height} {width} {margins} />
-				</div>
-			</div>
 			<div class="rain" style="--width: {width + 'px'}">
 				<div class="line">
 					<Histogram data={rain} {height} {width} {margins} />
+				</div>
+			</div>
+			<div class="temps" style="--width: {width + 'px'}">
+				<div class="line">
+					<Linechart data={temps} {height} {width} {margins} />
 				</div>
 			</div>
 		</div>
@@ -53,6 +53,13 @@
 {/if}
 
 <style>
+	.change {
+		display: grid;
+		grid: 100% 100%;
+	}
+	.change > div {
+		grid-area: 1 / 1;
+	}
 	.weather {
 		padding-block: 0.5rem;
 		display: grid;
@@ -84,7 +91,7 @@
 	.trains {
 		background: black;
 		color: white;
-		padding-inline: 0.5rem;
+		/* padding-inline: 0.5rem; */
 		display: flex;
 		justify-content: space-around;
 		align-items: center;

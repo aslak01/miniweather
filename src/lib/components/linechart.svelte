@@ -4,7 +4,7 @@
 	// import { dateToHour } from '$lib/functions';
 
 	export let data: DataAndTime[];
-	export let height = 70;
+	export let height = 150;
 	export let width = 130;
 	export let stroke = 4;
 
@@ -81,7 +81,7 @@
 		stroke="black"
 	/>
 
-	{#each [-30, -20, -10, 0, 10, 20, 30] as n}
+	{#each [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30] as n}
 		<text
 			class="first"
 			x={margins.inline - 5}
@@ -132,7 +132,7 @@
 	text.first {
 		text-anchor: end;
 	}
-	text.last {
-		text-anchor: start;
-	}
+	/* text.last { */
+	/* 	text-anchor: start; */
+	/* } */
 </style>
