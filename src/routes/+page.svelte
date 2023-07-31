@@ -9,7 +9,7 @@
 
   let loaded = false;
 
-  const height = 180;
+  const height = 204;
   const width = 350;
   const margins = {
     inline: 40,
