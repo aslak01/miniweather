@@ -39,7 +39,7 @@ export type RelevantTrainInfo = {
   display: string;
   time: string;
   diff: number;
-  delay: number
+  delay: number;
 };
 
 export type SortedTrainData = {

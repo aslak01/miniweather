@@ -2,14 +2,14 @@ import type {
   TrainData,
   RelevantTrainInfo,
   SortedTrainData,
-  StopToStopGeometries
-} from '../types';
-import { dateStringToMin, dateStringToMinFromNow, timeDiffInMin } from './date';
+  StopToStopGeometries,
+} from "../types";
+import { dateStringToMin, dateStringToMinFromNow, timeDiffInMin } from "./date";
 
 export const getTrains = async (): Promise<TrainData[]> => {
   const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('ET-Client-Name', 'personlig-infoskjerm');
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("ET-Client-Name", "personlig-infoskjerm");
 
   const graphql = JSON.stringify({
     query: `
@@ -50,24 +50,24 @@ export const getTrains = async (): Promise<TrainData[]> => {
           }
         }
       }
-    `
+    `,
   });
   const requestOptions = {
-    method: 'POST',
+    method: "POST",
     headers: myHeaders,
-    body: graphql
+    body: graphql,
   };
 
   const res = await fetch(
-    'https://api.entur.io/journey-planner/v3/graphql',
-    requestOptions
+    "https://api.entur.io/journey-planner/v3/graphql",
+    requestOptions,
   );
   const json = await res.json();
   return json.data.stopPlace.estimatedCalls;
 };
 
 export const extractLineNamesAndRelTime = (
-  train: TrainData
+  train: TrainData,
 ): RelevantTrainInfo => {
   const expected = train.expectedDepartureTime;
   const aimed = train.aimedDepartureTime;
@@ -77,7 +77,7 @@ export const extractLineNamesAndRelTime = (
     display: train.destinationDisplay.frontText,
     time: dateStringToMin(expected),
     diff: dateStringToMinFromNow(expected),
-    delay
+    delay,
   };
 };
 
@@ -87,8 +87,8 @@ export const splitAndCleanTrains = (data: TrainData[]): SortedTrainData => {
       sts.serviceJourney.journeyPattern.stopToStopGeometries
         .map((s: StopToStopGeometries) => s.toQuay.name)
         .indexOf(x);
-    const askerIndex = indexOfStation(d, 'Asker stasjon');
-    const osloIndex = indexOfStation(d, 'Oslo S');
+    const askerIndex = indexOfStation(d, "Asker stasjon");
+    const osloIndex = indexOfStation(d, "Oslo S");
     return askerIndex < osloIndex;
   };
   const tooSoon = (d: RelevantTrainInfo) => {
@@ -98,7 +98,7 @@ export const splitAndCleanTrains = (data: TrainData[]): SortedTrainData => {
     return d.diff < 600;
   };
   const noFlytog = (d: RelevantTrainInfo) => {
-    return d.line.includes('FLY') === false;
+    return d.line.includes("FLY") === false;
   };
   const northbound = data
     .filter(askerBeforeOslo)
@@ -117,6 +117,6 @@ export const splitAndCleanTrains = (data: TrainData[]): SortedTrainData => {
 
   return {
     northbound,
-    southbound
+    southbound,
   };
 };

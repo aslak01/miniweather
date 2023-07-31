@@ -1,6 +1,6 @@
-import type { PageServerLoad } from './$types';
-import type { Timeseries } from '$lib/types';
-import { env } from '$env/dynamic/public';
+import type { PageServerLoad } from "./$types";
+import type { Timeseries } from "$lib/types";
+import { env } from "$env/dynamic/public";
 
 import {
   getWeather,
@@ -9,16 +9,16 @@ import {
   getRain,
   getTemps,
   getTrains,
-  splitAndCleanTrains
-} from '$lib/functions/index';
+  splitAndCleanTrains,
+} from "$lib/functions/index";
 
 import {
   dummyIcon,
   dummyTemps,
   dummyRain,
   dummyInstant,
-  dummyTrains
-} from '$lib/testing';
+  dummyTrains,
+} from "$lib/testing";
 
 const LAT = env.PUBLIC_LAT,
   LON = env.PUBLIC_LON,
@@ -33,14 +33,14 @@ export const load: PageServerLoad = async (_event) => {
         iconkey: getIcon(res),
         rain: getRain(res, 6),
         temps: getTemps(res, 6),
-        instant: getInstant(res)
+        instant: getInstant(res),
       };
     });
     const trains = await getTrains();
     const splitTrains = splitAndCleanTrains(trains);
     return {
       weather,
-      splitTrains
+      splitTrains,
     };
   } else {
     return {
@@ -49,9 +49,9 @@ export const load: PageServerLoad = async (_event) => {
         rain: dummyRain,
         temps: dummyTemps,
         instant: dummyInstant,
-        raw: []
+        raw: [],
       },
-      splitTrains: { northbound: dummyTrains }
+      splitTrains: { northbound: dummyTrains },
     };
   }
 };
