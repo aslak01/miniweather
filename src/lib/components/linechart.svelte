@@ -1,7 +1,6 @@
 <script lang="ts">
   import * as d3 from "d3";
   import type { DataAndTime } from "$lib/types";
-  import { formatToNorwegianNumber } from "$lib/functions/utils";
 
   export let data: DataAndTime[];
   export let height = 150;
@@ -50,6 +49,7 @@
 
   let initialLegend: SVGTextElement;
   $: boxSize = initialLegend && initialLegend.getBBox();
+  $: console.log(boxSize);
 
   let finalLegend: SVGTextElement;
   $: lastLegendSize = finalLegend && finalLegend.getBBox();
@@ -128,7 +128,8 @@
 
   <text
     class="legend"
-    x={lastCoord[0] + 25}
+    style="font-size: 2rem;"
+    x={lastCoord[0] + 40}
     y={lastCoord[1]}
     bind:this={finalLegend}
     dominant-baseline="middle">{Math.round(last.value)}</text
@@ -145,7 +146,8 @@
 
   <text
     class="legend"
-    x={firstCoord[0] - 5}
+    style="font-size: 2rem"
+    x={firstCoord[0] - 10}
     y={firstCoord[1]}
     bind:this={initialLegend}
     dominant-baseline="middle">{Math.round(first.value)}</text

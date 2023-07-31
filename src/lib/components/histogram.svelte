@@ -151,7 +151,6 @@
       y={yScale(n)}
       alignment-baseline="middle"
       >{n}
-      <tspan class="small" alignment-baseline="auto">mm</tspan>
     </text>
     <line
       x1={margins.inline}
@@ -180,7 +179,9 @@
   svg line {
     stroke: #888;
   }
-  svg text,
+  svg text {
+    fill: black;
+  }
   svg circle {
     fill: #888;
   }

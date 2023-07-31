@@ -9,14 +9,15 @@
 
   let loaded = false;
 
-  const height = 204;
-  const width = 350;
+  const height = 220;
+  const width = 480;
   const margins = {
-    inline: 50,
-    block: 15,
+    inline: 55,
+    block: 20,
   };
 
-  const { iconkey, rain, temps, instant } = data.weather;
+  // const { iconkey, rain, temps, instant } = data.weather;
+  const { rain, temps, iconkey } = data.weather;
   const icon = weathericons[iconkey];
   const northbound = data.splitTrains.northbound;
 
@@ -25,12 +26,12 @@
 
 {#if loaded}
   <div class="weather">
-    <article class="main">
-      <h1>{Math.round(instant.air_temperature)}°</h1>
-      <div class="main-icon">
-        <svelte:component this={icon} />
-      </div>
-    </article>
+    <!-- <article class="main"> -->
+    <!--   <h1>{Math.round(instant.air_temperature)}°</h1> -->
+    <div class="main-icon">
+      <svelte:component this={icon} />
+    </div>
+    <!-- </article> -->
     <div class="change">
       <div class="rain" style="--width: {width + 'px'}">
         <div class="line">
@@ -60,7 +61,6 @@
     grid-area: 1 / 1;
   }
   .weather {
-    padding-block: 0.5rem;
     display: grid;
     gap: 1rem;
     grid-template-columns: 100px auto;
@@ -68,6 +68,7 @@
     max-width: 480px;
     max-height: 280px;
     overflow: hidden;
+    position: relative;
     /* align-content: center; */
   }
   .main {
@@ -86,6 +87,17 @@
   .main-icon {
     display: grid;
     align-content: center;
+    position: absolute;
+    top: 0;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 20000;
+    height: 70px;
+    width: 70px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 50%;
+    /* padding: 2px; */
   }
   .trains {
     background: black;
