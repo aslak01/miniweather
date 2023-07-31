@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as d3 from "d3";
   import type { DataAndTime } from "$lib/types";
-  // import { dateToHour } from '$lib/functions';
+  import { formatToNorwegianNumber } from "$lib/functions/utils";
 
   export let data: DataAndTime[];
   export let height = 150;
@@ -47,6 +47,12 @@
   const noonX = xScale(noon);
 
   const line = d3.line().curve(d3.curveCardinal)(scaledData);
+
+  let initialLegend: SVGTextElement;
+  $: boxSize = initialLegend && initialLegend.getBBox();
+
+  let finalLegend: SVGTextElement;
+  $: lastLegendSize = finalLegend && finalLegend.getBBox();
 </script>
 
 <svg
@@ -55,22 +61,18 @@
   {width}
   style="--stroke-width: {stroke}"
 >
-  <defs>
-    <filter x="0" y="0" width="1" height="1" id="bg-solid">
-      <feFlood flood-color="white" result="bg" />
-      <feMerge>
-        <feMergeNode in="bg" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
-    </filter>
-  </defs>
-  <!-- <text -->
-  <!-- 	class="first" -->
-  <!-- 	filter="url(#bg-solid)" -->
-  <!-- 	x={firstCoord[0] - 5} -->
-  <!-- 	y={firstCoord[1]} -->
-  <!-- 	dominant-baseline="middle">{first.value}°</text -->
-  <!-- > -->
+  <!-- <defs> -->
+  <!--   <filter x="0" y="0" width="1" height="1" id="bg-solid"> -->
+  <!--     <feFlood flood-color="white" result="bg" /> -->
+  <!--     <feMerge> -->
+  <!--       <feMergeNode in="bg" /> -->
+  <!--       <feMergeNode in="SourceGraphic" /> -->
+  <!--     </feMerge> -->
+  <!--   </filter> -->
+  <!-- </defs> -->
+
+  <!-- filter="url(#bg-solid)" -->
+
   <path d={line} />
 
   <line
@@ -114,13 +116,40 @@
     y2={height - margins.block}
     stroke="black"
   />
-  <!-- <text -->
-  <!-- 	class="last" -->
-  <!-- 	filter="url(#bg-solid)" -->
-  <!-- 	x={lastCoord[0] + 2} -->
-  <!-- 	y={lastCoord[1]} -->
-  <!-- 	dominant-baseline="middle">{last.value}°</text -->
-  <!-- > -->
+
+  {#if finalLegend}
+    <circle
+      cy={lastLegendSize.y + lastLegendSize.height / 2}
+      cx={lastLegendSize.x + lastLegendSize.width / 2}
+      r={Math.max(lastLegendSize.width, lastLegendSize.height) / 2 + 2}
+      fill="black"
+    ></circle>
+  {/if}
+
+  <text
+    class="legend"
+    x={lastCoord[0] + 25}
+    y={lastCoord[1]}
+    bind:this={finalLegend}
+    dominant-baseline="middle">{Math.round(last.value)}</text
+  >
+
+  {#if initialLegend}
+    <circle
+      cy={boxSize.y + boxSize.height / 2}
+      cx={boxSize.x + boxSize.width / 2}
+      r={Math.max(boxSize.width, boxSize.height) / 2 + 2}
+      fill="black"
+    ></circle>
+  {/if}
+
+  <text
+    class="legend"
+    x={firstCoord[0] - 5}
+    y={firstCoord[1]}
+    bind:this={initialLegend}
+    dominant-baseline="middle">{Math.round(first.value)}</text
+  >
 </svg>
 
 <style>
@@ -131,6 +160,12 @@
   }
   text.first {
     text-anchor: end;
+  }
+  text.legend {
+    text-anchor: end;
+    fill: white;
+    position: relative;
+    z-index: 10000;
   }
   /* text.last { */
   /* 	text-anchor: start; */

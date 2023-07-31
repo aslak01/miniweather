@@ -31,8 +31,8 @@ export const load: PageServerLoad = async (_event) => {
     const weather = await getWeather(LAT, LON).then((res: Timeseries[]) => {
       return {
         iconkey: getIcon(res),
-        rain: getRain(res, 6),
-        temps: getTemps(res, 6),
+        rain: getRain(res, 8),
+        temps: getTemps(res, 8),
         instant: getInstant(res),
       };
     });

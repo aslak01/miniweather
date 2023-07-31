@@ -12,7 +12,7 @@
   const height = 204;
   const width = 350;
   const margins = {
-    inline: 40,
+    inline: 50,
     block: 15,
   };
 
@@ -21,7 +21,6 @@
   const northbound = data.splitTrains.northbound;
 
   loaded = true;
-  // }
 </script>
 
 {#if loaded}
@@ -46,7 +45,7 @@
     </div>
   </div>
   <div class="trains">
-    {#each northbound as train (train.time)}
+    {#each northbound as train}
       <Train {train} />
     {/each}
   </div>

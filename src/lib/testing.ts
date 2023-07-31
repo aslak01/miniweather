@@ -11,15 +11,15 @@ export const dummyTemps: DataAndTime[] = [
     date: "2023-02-27T10:00:00Z",
   },
   {
-    value: 28.3,
+    value: 8.3,
     date: "2023-02-27T11:00:00Z",
   },
   {
-    value: 18.9,
+    value: 8.9,
     date: "2023-02-27T12:00:00Z",
   },
   {
-    value: 14,
+    value: 4,
     date: "2023-02-27T13:00:00Z",
   },
 ];
