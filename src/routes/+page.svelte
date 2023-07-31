@@ -71,14 +71,14 @@
     position: relative;
     /* align-content: center; */
   }
-  .main {
-    text-align: center;
-    padding-left: 0.5rem;
-  }
-  .main h1 {
-    font-size: 3rem;
-    margin-bottom: 0;
-  }
+  /* .main { */
+  /*   text-align: center; */
+  /*   padding-left: 0.5rem; */
+  /* } */
+  /* .main h1 { */
+  /*   font-size: 3rem; */
+  /*   margin-bottom: 0; */
+  /* } */
   .rain,
   .temps {
     display: grid;

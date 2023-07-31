@@ -191,9 +191,6 @@
   text.last {
     text-anchor: start;
   }
-  text .small {
-    font-size: 0.5em;
-  }
   .stipple {
     stroke-width: 0px;
   }
