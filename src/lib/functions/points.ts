@@ -3,7 +3,7 @@ import type { DataAndTime } from "$lib/types";
 export function generatePoissonPoints(
   width: number,
   height: number,
-  radius: number
+  radius: number,
 ) {
   const sampler = poissonDiscSampler(width, height, radius);
   let points = [];
@@ -18,7 +18,7 @@ export function generatePoissonPoints(
 export function poissonDiscSampler(
   width: number,
   height: number,
-  radius: number
+  radius: number,
 ): () => [number, number] | undefined {
   const k = 30, // maximum number of samples before rejection
     radius2 = radius * radius,
@@ -32,7 +32,7 @@ export function poissonDiscSampler(
   let queueSize = 0,
     sampleSize = 0;
 
-  return function() {
+  return function () {
     if (!sampleSize)
       return sample(Math.random() * width, Math.random() * height);
 
@@ -97,7 +97,7 @@ export function generateFeltonLine(
   xScale: (arg: Date) => number,
   xAccessor: (arg: DataAndTime) => Date,
   yScale: (arg: number) => number,
-  yAccessor: (arg: DataAndTime) => number
+  yAccessor: (arg: DataAndTime) => number,
 ): [number, number][] {
   // this is only correct because of 0-based arrays and # segments = # points - 1
   // const segments = data.length
@@ -110,17 +110,17 @@ export function generateFeltonLine(
   for (let i = 1; i < data.length - 1; i++) {
     result.push([
       xScale(xAccessor(data[i])) - connectorWidth,
-      yScale(yAccessor(data[i - 1]))
+      yScale(yAccessor(data[i - 1])),
     ]);
     result.push([
       xScale(xAccessor(data[i])) + connectorWidth,
-      yScale(yAccessor(data[i]))
+      yScale(yAccessor(data[i])),
     ]);
   }
   // Add the final point
   result.push([
     xScale(xAccessor(data[data.length - 1])),
-    yScale(yAccessor(data[data.length - 1]))
+    yScale(yAccessor(data[data.length - 1])),
   ]);
   return result as [number, number][];
 }
@@ -130,14 +130,14 @@ export function generateClosedFeltonPolygon(
   xScale: (arg: Date) => number,
   xAccessor: (arg: DataAndTime) => Date,
   yScale: (arg: number) => number,
-  yAccessor: (arg: DataAndTime) => number
+  yAccessor: (arg: DataAndTime) => number,
 ): [number, number][] {
   const lineSegments = generateFeltonLine(
     data,
     xScale,
     xAccessor,
     yScale,
-    yAccessor
+    yAccessor,
   );
   return [
     // First point - on the origin
@@ -150,6 +150,6 @@ export function generateClosedFeltonPolygon(
     [xScale(xAccessor(data[data.length - 1])), yScale(0)],
 
     // Now close the polygon by going back to the origin
-    [xScale(xAccessor(data[0])), yScale(0)]
+    [xScale(xAccessor(data[0])), yScale(0)],
   ];
 }
