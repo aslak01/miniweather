@@ -62,13 +62,13 @@
   }
   .weather {
     display: grid;
-    gap: 1rem;
+    position: relative;
     grid-template-columns: 100px auto;
+    gap: 1rem;
     width: 100%;
     max-width: 480px;
     max-height: 280px;
     overflow: hidden;
-    position: relative;
     /* align-content: center; */
   }
   /* .main { */
@@ -86,27 +86,27 @@
   }
   .main-icon {
     display: grid;
-    align-content: center;
     position: absolute;
     top: 0;
     right: 50%;
+    align-content: center;
     transform: translateX(50%);
     z-index: 20000;
-    height: 70px;
-    width: 70px;
-    background: white;
     border: 1px solid black;
     border-radius: 50%;
+    background: white;
+    width: 70px;
+    height: 70px;
     /* padding: 2px; */
   }
   .trains {
-    background: black;
-    color: white;
     /* padding-inline: 0.5rem; */
     display: flex;
     justify-content: space-around;
     align-items: center;
+    background: black;
     width: 100%;
     height: 56px;
+    color: white;
   }
 </style>
