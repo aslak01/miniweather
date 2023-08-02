@@ -1,8 +1,8 @@
 import type {
-  WeathericonKey,
-  Timeseries,
   DataAndTime,
   Instant,
+  Timeseries,
+  WeathericonKey,
 } from "$lib/types";
 
 export const getWeather = async (
@@ -13,16 +13,15 @@ export const getWeather = async (
     `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`,
   );
   const res = await req.json();
-  // const now = new Date().setMinutes(0, 0, 0);
-  const now = new Date().getTime();
+  const now = new Date(new Date().setMinutes(0, 0, 0)).getTime();
 
   const tenHrsInMs = 36000000;
-  const halfHrInMs = 1800000;
+  // const halfHrInMs = 1800000;
 
   const next10hours = res.properties.timeseries.filter(
     (t: Timeseries) =>
-      new Date(t.time).getTime() > now - halfHrInMs &&
-      new Date(t.time).getTime() < now + tenHrsInMs + halfHrInMs,
+      new Date(t.time).getTime() >= now &&
+      new Date(t.time).getTime() <= now + tenHrsInMs,
   );
   return next10hours;
 };
@@ -39,9 +38,11 @@ export const getInstant = (w: Timeseries[]): Instant => {
 };
 
 export const getTemps = (w: Timeseries[], amt: number): DataAndTime[] => {
+  console.log(w.map((w) => w.data.instant));
   const nextTemps = w.reduce((acc: DataAndTime[], val: Timeseries) => {
     acc.push({
       value: val.data.instant.details.air_temperature,
+      icon: val.data.next_1_hours?.summary.symbol_code,
       date: val.time,
     });
     return acc;

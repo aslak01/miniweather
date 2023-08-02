@@ -1,6 +1,7 @@
 <script lang="ts">
   import * as d3 from "d3";
   import type { DataAndTime } from "$lib/types";
+  import { selectEntries } from "$lib/functions";
 
   export let data: DataAndTime[];
   export let height = 150;
@@ -49,10 +50,12 @@
 
   let initialLegend: SVGTextElement;
   $: boxSize = initialLegend && initialLegend.getBBox();
-  $: console.log(boxSize);
 
   let finalLegend: SVGTextElement;
   $: lastLegendSize = finalLegend && finalLegend.getBBox();
+  console.log(data);
+
+  const icondata = selectEntries(data, 4);
 </script>
 
 <svg
@@ -75,13 +78,13 @@
 
   <path d={line} />
 
-  <line
-    x1={margins.inline}
-    x2={width - margins.inline}
-    y1={yScale(0)}
-    y2={yScale(0)}
-    stroke="black"
-  />
+  <!-- <line -->
+  <!--   x1={margins.inline} -->
+  <!--   x2={width - margins.inline} -->
+  <!--   y1={yScale(0)} -->
+  <!--   y2={yScale(0)} -->
+  <!--   stroke="black" -->
+  <!-- /> -->
 
   {#each [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30] as n}
     <text
@@ -129,7 +132,7 @@
   <text
     class="legend"
     style="font-size: 2rem; font-weight: bold;"
-    x={lastCoord[0] + 40}
+    x={lastCoord[0] + 30}
     y={lastCoord[1]}
     bind:this={finalLegend}
     dominant-baseline="middle">{Math.round(last.value)}</text
@@ -147,11 +150,22 @@
   <text
     class="legend"
     style="font-size: 2rem; font-weight: bold;"
-    x={firstCoord[0] - 10}
+    x={firstCoord[0] - 5}
     y={firstCoord[1]}
     bind:this={initialLegend}
     dominant-baseline="middle">{Math.round(first.value)}</text
   >
+  {#each icondata as h, i}
+    {@const len = icondata.length}
+    {console.log(h)}
+    <image
+      x={margins.inline + i * ((width - margins.inline) / len)}
+      y="5"
+      height="40"
+      width="40"
+      href={`wicons/${h.icon}.svg`}
+    />
+  {/each}
 </svg>
 
 <style>

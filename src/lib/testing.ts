@@ -5,22 +5,27 @@ export const dummyTemps: DataAndTime[] = [
   {
     value: -5.3,
     date: "2023-02-27T09:00:00Z",
+    icon: "clearsky_day",
   },
   {
     value: -2,
     date: "2023-02-27T10:00:00Z",
+    icon: "fair_polartwilight",
   },
   {
     value: 8.3,
     date: "2023-02-27T11:00:00Z",
+    icon: "heavyrainandthunder",
   },
   {
     value: 8.9,
     date: "2023-02-27T12:00:00Z",
+    icon: "fog",
   },
   {
     value: 4,
     date: "2023-02-27T13:00:00Z",
+    icon: "snow",
   },
 ];
 export const dummyRain: DataAndTime[] = [

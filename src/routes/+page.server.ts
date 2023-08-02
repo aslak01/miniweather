@@ -3,28 +3,28 @@ import type { Timeseries } from "$lib/types";
 import { env } from "$env/dynamic/public";
 
 import {
-  getWeather,
   getIcon,
   getInstant,
   getRain,
   getTemps,
   getTrains,
+  getWeather,
   splitAndCleanTrains,
 } from "$lib/functions/index";
 
 import {
   dummyIcon,
-  dummyTemps,
-  dummyRain,
   dummyInstant,
+  dummyRain,
+  dummyTemps,
   dummyTrains,
 } from "$lib/testing";
 
 const LAT = env.PUBLIC_LAT,
   LON = env.PUBLIC_LON,
   // DEV = import.meta.env.DEV;
-  // DEV = true;
-  DEV = false;
+  DEV = true;
+// DEV = false;
 
 export const load: PageServerLoad = async (_event) => {
   if (LAT && LON && !DEV) {

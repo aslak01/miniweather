@@ -28,9 +28,9 @@
   <div class="weather">
     <!-- <article class="main"> -->
     <!--   <h1>{Math.round(instant.air_temperature)}°</h1> -->
-    <div class="main-icon">
-      <svelte:component this={icon} />
-    </div>
+    <!-- <div class="main-icon"> -->
+    <!--   <svelte:component this={icon} /> -->
+    <!-- </div> -->
     <!-- </article> -->
     <div class="change">
       <div class="rain" style="--width: {width + 'px'}">
