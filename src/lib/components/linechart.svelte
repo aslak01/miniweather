@@ -121,14 +121,14 @@
     <circle
       cy={lastLegendSize.y + lastLegendSize.height / 2}
       cx={lastLegendSize.x + lastLegendSize.width / 2}
-      r={Math.max(lastLegendSize.width, lastLegendSize.height) / 2 + 2}
+      r={Math.max(lastLegendSize.width, lastLegendSize.height) / 2 + 4}
       fill="black"
     ></circle>
   {/if}
 
   <text
     class="legend"
-    style="font-size: 2rem;"
+    style="font-size: 2rem; font-weight: bold;"
     x={lastCoord[0] + 40}
     y={lastCoord[1]}
     bind:this={finalLegend}
@@ -139,14 +139,14 @@
     <circle
       cy={boxSize.y + boxSize.height / 2}
       cx={boxSize.x + boxSize.width / 2}
-      r={Math.max(boxSize.width, boxSize.height) / 2 + 2}
+      r={Math.max(boxSize.width, boxSize.height) / 2 + 4}
       fill="black"
     ></circle>
   {/if}
 
   <text
     class="legend"
-    style="font-size: 2rem"
+    style="font-size: 2rem; font-weight: bold;"
     x={firstCoord[0] - 10}
     y={firstCoord[1]}
     bind:this={initialLegend}
