@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as d3 from "d3";
   import type { DataAndTime } from "$lib/types";
-  import { selectEntries } from "$lib/functions";
+  import { selectEvenIndicesWithIndex } from "$lib/functions";
 
   export let data: DataAndTime[];
   export let height = 150;
@@ -9,8 +9,8 @@
   export let stroke = 4;
 
   export let margins = {
-    inline: 40,
-    block: 15,
+    inline: 60,
+    block: 35,
   };
 
   const first = data[0];
@@ -36,14 +36,15 @@
   ];
 
   const scaledData = data.map(scaleData);
+  console.log(scaledData);
 
   const firstCoord = scaledData[0];
   const lastCoord = scaledData[scaledData.length - 1];
 
-  const midnight = new Date().setHours(0, 0, 0);
+  const midnight = new Date().setHours(0, 0, 0, 0);
   const midnightX = xScale(midnight);
 
-  const noon = new Date().setHours(12, 0, 0);
+  const noon = new Date().setHours(12, 0, 0, 0);
   const noonX = xScale(noon);
 
   const line = d3.line().curve(d3.curveCardinal)(scaledData);
@@ -55,7 +56,7 @@
   $: lastLegendSize = finalLegend && finalLegend.getBBox();
   console.log(data);
 
-  const icondata = selectEntries(data, 4);
+  const icondata = selectEvenIndicesWithIndex(data);
 </script>
 
 <svg
@@ -132,7 +133,7 @@
   <text
     class="legend"
     style="font-size: 2rem; font-weight: bold;"
-    x={lastCoord[0] + 30}
+    x={lastCoord[0] + 60}
     y={lastCoord[1]}
     bind:this={finalLegend}
     dominant-baseline="middle">{Math.round(last.value)}</text
@@ -150,21 +151,20 @@
   <text
     class="legend"
     style="font-size: 2rem; font-weight: bold;"
-    x={firstCoord[0] - 5}
+    x={firstCoord[0] - 25}
     y={firstCoord[1]}
     bind:this={initialLegend}
     dominant-baseline="middle">{Math.round(first.value)}</text
   >
   {#each icondata as h, i}
+    {@const height = 40}
+    {@const width = 40}
     {@const len = icondata.length}
+    {@const x = scaledData[h.index][0] - width / 2}
+    {@const y = scaledData[h.index][1] - height / 2}
+    {@const href = `wicons/${h.icon}.svg`}
     {console.log(h)}
-    <image
-      x={margins.inline + i * ((width - margins.inline) / len)}
-      y="5"
-      height="40"
-      width="40"
-      href={`wicons/${h.icon}.svg`}
-    />
+    <image {x} {y} {height} {width} {href} />
   {/each}
 </svg>
 

@@ -12,13 +12,13 @@
   const height = 220;
   const width = 480;
   const margins = {
-    inline: 55,
+    inline: 75,
     block: 20,
   };
 
   // const { iconkey, rain, temps, instant } = data.weather;
   const { rain, temps, iconkey } = data.weather;
-  const icon = weathericons[iconkey];
+  // const icon = weathericons[iconkey];
   const northbound = data.splitTrains.northbound;
 
   loaded = true;
@@ -84,21 +84,23 @@
     display: grid;
     grid-template-columns: var(--width) auto;
   }
-  .main-icon {
-    display: grid;
-    position: absolute;
-    top: 0;
-    right: 50%;
-    align-content: center;
-    transform: translateX(50%);
-    z-index: 20000;
-    border: 1px solid black;
-    border-radius: 50%;
-    background: white;
-    width: 70px;
-    height: 70px;
-    /* padding: 2px; */
-  }
+
+  /* .main-icon { */
+  /*   display: grid; */
+  /*   position: absolute; */
+  /*   top: 0; */
+  /*   right: 50%; */
+  /*   align-content: center; */
+  /*   transform: translateX(50%); */
+  /*   z-index: 20000; */
+  /*   border: 1px solid black; */
+  /*   border-radius: 50%; */
+  /*   background: white; */
+  /*   width: 70px; */
+  /*   height: 70px; */
+  /*    padding: 2px; */
+  /* } */
+
   .trains {
     /* padding-inline: 0.5rem; */
     display: flex;

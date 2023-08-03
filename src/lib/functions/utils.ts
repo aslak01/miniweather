@@ -26,14 +26,14 @@ export function selectEntries<T>(inputArray: T[], n: number): T[] {
     (acc: T[], currentValue: T, currentIndex: number) => {
       if (currentIndex === 0 || currentIndex === inputArray.length - 1) {
         // Include the first and last elements directly into the new array
-        acc.push(currentValue);
+        acc.push({ ...currentValue, index: currentIndex });
       } else {
         // Calculate the interval size for evenly spaced middle entries
         const intervalSize = (inputArray.length - 2) / (n - 1);
 
         // Check if the current index is an evenly spaced middle entry
         if ((currentIndex - 1) % intervalSize === 0) {
-          acc.push(currentValue);
+          acc.push({ ...currentValue, index: currentIndex });
         }
       }
       return acc;
@@ -42,4 +42,14 @@ export function selectEntries<T>(inputArray: T[], n: number): T[] {
   );
 
   return selectedEntries;
+}
+
+export function selectEvenIndicesWithIndex<T>(
+  arr: T[],
+): (T & { index: number })[] {
+  return arr
+    .map((element, index) => ({ ...element, index }))
+    .filter(
+      (el: T & { index: number }) => el.index % 2 === 0 && el.index !== 0,
+    );
 }

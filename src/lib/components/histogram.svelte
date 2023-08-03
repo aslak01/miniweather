@@ -123,13 +123,14 @@
   />
 
   <!-- midnight line  -->
-  <line
-    x1={midnightX}
-    x2={midnightX + 1}
-    y1={margins.block}
-    y2={height - margins.block}
-    stroke="black"
-  />
+  <!-- <line -->
+  <!--   x1={midnightX} -->
+  <!--   x2={midnightX + 1} -->
+  <!--   y1={margins.block} -->
+  <!--   y2={height - margins.block} -->
+  <!--   stroke="black" -->
+  <!-- /> -->
+
   {#each points as point}
     {#if d3.polygonContains(closedPoly, [point[0], point[1]])}
       <circle class="stipple" cx={point[0]} cy={point[1]} r={2.5} />
