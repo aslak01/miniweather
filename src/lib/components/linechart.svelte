@@ -65,27 +65,7 @@
   {width}
   style="--stroke-width: {stroke}"
 >
-  <!-- <defs> -->
-  <!--   <filter x="0" y="0" width="1" height="1" id="bg-solid"> -->
-  <!--     <feFlood flood-color="white" result="bg" /> -->
-  <!--     <feMerge> -->
-  <!--       <feMergeNode in="bg" /> -->
-  <!--       <feMergeNode in="SourceGraphic" /> -->
-  <!--     </feMerge> -->
-  <!--   </filter> -->
-  <!-- </defs> -->
-
-  <!-- filter="url(#bg-solid)" -->
-
   <path d={line} />
-
-  <!-- <line -->
-  <!--   x1={margins.inline} -->
-  <!--   x2={width - margins.inline} -->
-  <!--   y1={yScale(0)} -->
-  <!--   y2={yScale(0)} -->
-  <!--   stroke="black" -->
-  <!-- /> -->
 
   {#each [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30] as n}
     <text
@@ -119,6 +99,7 @@
     y1={margins.block}
     y2={height - margins.block}
     stroke="black"
+    id="midnightLine"
   />
 
   {#if finalLegend}
@@ -156,14 +137,12 @@
     bind:this={initialLegend}
     dominant-baseline="middle">{Math.round(first.value)}</text
   >
-  {#each icondata as h, i}
+  {#each icondata as h}
     {@const height = 40}
     {@const width = 40}
-    {@const len = icondata.length}
     {@const x = scaledData[h.index][0] - width / 2}
     {@const y = scaledData[h.index][1] - height / 2}
     {@const href = `wicons/${h.icon}.svg`}
-    {console.log(h)}
     <image {x} {y} {height} {width} {href} />
   {/each}
 </svg>
@@ -183,7 +162,4 @@
     position: relative;
     z-index: 10000;
   }
-  /* text.last { */
-  /* 	text-anchor: start; */
-  /* } */
 </style>
