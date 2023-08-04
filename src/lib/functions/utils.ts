@@ -53,3 +53,7 @@ export function selectEvenIndicesWithIndex<T>(
       (el: T & { index: number }) => el.index % 2 === 0 && el.index !== 0,
     );
 }
+
+export function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}

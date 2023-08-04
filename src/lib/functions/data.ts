@@ -38,7 +38,7 @@ export const getInstant = (w: Timeseries[]): Instant => {
 };
 
 export const getTemps = (w: Timeseries[], amt: number): DataAndTime[] => {
-  console.log(w.map((w) => w.data.instant));
+  // console.log(w.map((w) => w.data.instant));
   const nextTemps = w.reduce((acc: DataAndTime[], val: Timeseries) => {
     acc.push({
       value: val.data.instant.details.air_temperature,

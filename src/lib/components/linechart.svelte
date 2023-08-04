@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as d3 from "d3";
   import type { DataAndTime } from "$lib/types";
-  import { selectEvenIndicesWithIndex } from "$lib/functions";
+  import { clamp, selectEvenIndicesWithIndex } from "$lib/functions";
 
   export let data: DataAndTime[];
   export let height = 150;
@@ -36,7 +36,7 @@
   ];
 
   const scaledData = data.map(scaleData);
-  console.log(scaledData);
+  // console.log(scaledData);
 
   const firstCoord = scaledData[0];
   const lastCoord = scaledData[scaledData.length - 1];
@@ -44,8 +44,12 @@
   const midnight = new Date().setHours(0, 0, 0, 0);
   const midnightX = xScale(midnight);
 
+  // console.log(new Date(midnight).toLocaleTimeString(), midnightX);
+
   const noon = new Date().setHours(12, 0, 0, 0);
   const noonX = xScale(noon);
+
+  // console.log(new Date(noon).toLocaleTimeString(), noonX);
 
   const line = d3.line().curve(d3.curveCardinal)(scaledData);
 
@@ -54,7 +58,7 @@
 
   let finalLegend: SVGTextElement;
   $: lastLegendSize = finalLegend && finalLegend.getBBox();
-  console.log(data);
+  // console.log(data.map((d) => new Date(d.date).toLocaleTimeString()));
 
   const icondata = selectEvenIndicesWithIndex(data);
 </script>
@@ -115,7 +119,7 @@
     class="legend"
     style="font-size: 2rem; font-weight: bold;"
     x={lastCoord[0] + 60}
-    y={lastCoord[1]}
+    y={clamp(lastCoord[1], 30, height - margins.block)}
     bind:this={finalLegend}
     dominant-baseline="middle">{Math.round(last.value)}</text
   >
@@ -133,7 +137,7 @@
     class="legend"
     style="font-size: 2rem; font-weight: bold;"
     x={firstCoord[0] - 25}
-    y={firstCoord[1]}
+    y={clamp(firstCoord[1], 30, height - margins.block - 30)}
     bind:this={initialLegend}
     dominant-baseline="middle">{Math.round(first.value)}</text
   >
