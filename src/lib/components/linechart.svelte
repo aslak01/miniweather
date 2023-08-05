@@ -41,7 +41,7 @@
   const firstCoord = scaledData[0];
   const lastCoord = scaledData[scaledData.length - 1];
 
-  const midnight = new Date().setHours(0, 0, 0, 0);
+  const midnight = new Date().setHours(23, 59, 59, 59);
   const midnightX = xScale(midnight);
 
   // console.log(new Date(midnight).toLocaleTimeString(), midnightX);
