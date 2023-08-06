@@ -2,6 +2,7 @@
   import * as d3 from "d3";
   import type { DataAndTime } from "$lib/types";
   import {
+    generateLowerNumbers,
     generateFeltonLine,
     generateClosedFeltonPolygon,
     generatePoissonPoints,
@@ -56,6 +57,12 @@
     yAccessor,
   );
 
+  const max = Math.max(...data.map(yAccessor));
+
+  const ticks = generateLowerNumbers(1)(max);
+
+  console.log(max);
+
   // const line = d3.line().curve(d3.curveLinear)(scaledData);
   const line = d3.line().curve(d3.curveLinear)(feltonData);
   // const line = d3.line().curve(d3.curveLinear)(closedPoly);
@@ -74,7 +81,7 @@
   {/each}
 
   <path d={line} />
-  {#each [0, 5, 10, 15, 20, 25, 30] as n}
+  {#each ticks as n}
     <text
       class="last"
       x={width - margins.inline + 5}
@@ -88,6 +95,7 @@
       y1={yScale(n)}
       y2={yScale(n)}
       stroke="black"
+      stroke-dasharray="5"
     />
   {/each}
 </svg>
