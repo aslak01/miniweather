@@ -24,7 +24,8 @@
     "./tests/**/*.js",
     "./tests/**/*.ts",
     "./tests/**/*.svelte",
-    "./svelte.config.js"
+    "./svelte.config.js",
+    "./.eslintrc.cjs"
   ],
   "exclude": [
     "./node_modules/**",
