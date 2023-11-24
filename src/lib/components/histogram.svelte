@@ -60,6 +60,7 @@
   const max = Math.max(...data.map(yAccessor));
 
   const ticks = generateLowerNumbers(1)(max);
+  console.log(ticks);
 
   console.log(max);
 
@@ -81,23 +82,25 @@
   {/each}
 
   <path d={line} />
-  {#each ticks as n}
-    <text
-      class="last"
-      x={width - margins.inline + 5}
-      y={yScale(n)}
-      alignment-baseline="middle"
-      >{n}
-    </text>
-    <line
-      x1={margins.inline}
-      x2={width - margins.inline}
-      y1={yScale(n)}
-      y2={yScale(n)}
-      stroke="black"
-      stroke-dasharray="5"
-    />
-  {/each}
+  {#if ticks}
+    {#each ticks as n}
+      <text
+        class="last"
+        x={width - margins.inline + 5}
+        y={yScale(n)}
+        alignment-baseline="middle"
+        >{n}
+      </text>
+      <line
+        x1={margins.inline}
+        x2={width - margins.inline}
+        y1={yScale(n)}
+        y2={yScale(n)}
+        stroke="black"
+        stroke-dasharray="5"
+      />
+    {/each}
+  {/if}
 </svg>
 
 <style>
