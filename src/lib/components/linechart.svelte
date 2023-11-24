@@ -108,17 +108,18 @@
 
   {#if finalLegend}
     <circle
+      class:negative={last.value < 0}
       cy={lastLegendSize.y + lastLegendSize.height / 2}
       cx={lastLegendSize.x + lastLegendSize.width / 2}
       r={Math.max(lastLegendSize.width, lastLegendSize.height) / 2 + 4}
-      fill="black"
     ></circle>
   {/if}
 
   <text
     class="legend"
+    class:negative={last.value < 0}
     style="font-size: 2rem; font-weight: bold;"
-    x={lastCoord[0] + 60}
+    x={lastCoord[0] + 50}
     y={clamp(lastCoord[1], 30, height - margins.block)}
     bind:this={finalLegend}
     dominant-baseline="middle">{Math.round(last.value)}</text
@@ -126,15 +127,16 @@
 
   {#if initialLegend}
     <circle
+      class:negative={first.value < 0}
       cy={boxSize.y + boxSize.height / 2}
       cx={boxSize.x + boxSize.width / 2}
       r={Math.max(boxSize.width, boxSize.height) / 2 + 4}
-      fill="black"
     ></circle>
   {/if}
 
   <text
     class="legend"
+    class:negative={first.value < 0}
     style="font-size: 2rem; font-weight: bold;"
     x={firstCoord[0] - 25}
     y={clamp(firstCoord[1], 30, height - margins.block - 30)}
@@ -165,5 +167,16 @@
     fill: white;
     position: relative;
     z-index: 10000;
+  }
+  text.legend.negative {
+    fill: black;
+  }
+  circle {
+    fill: black;
+  }
+  circle.negative {
+    fill: white;
+    stroke: black;
+    stroke-width: 4px;
   }
 </style>
