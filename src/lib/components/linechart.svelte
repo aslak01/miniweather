@@ -19,6 +19,19 @@
   const maxY = Math.max(...data.map((d) => d.value));
   const minY = Math.min(...data.map((d) => d.value));
 
+  function minRange4(min: number, max: number) {
+    let newMin = min;
+    let newMax = max;
+
+    if (max - min < 3) {
+      newMin -= 2;
+      newMax += 2;
+    }
+
+    return [newMin, newMax];
+  }
+  const yDomain = minRange4(minY, maxY);
+
   const xScale = d3
     .scaleTime()
     .domain([new Date(first.date), new Date(last.date).getTime()])
@@ -26,9 +39,9 @@
 
   const yScale = d3
     .scaleLinear()
-    .domain([minY, maxY])
-    .range([height - margins.block, margins.block])
-    .nice();
+    .domain(yDomain)
+    .nice()
+    .range([height - margins.block, margins.block]);
 
   const scaleData = (d: DataAndTime): [number, number] => [
     xScale(new Date(d.date)),
