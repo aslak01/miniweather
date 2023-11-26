@@ -158,14 +158,16 @@
     dominant-baseline="middle">{Math.round(first.value)}</text
   >
   {#each icondata as h}
-    {@const height = 40}
-    {@const width = 40}
-    {@const x = scaledData[h.index][0] - width / 2}
-    {@const y = scaledData[h.index][1] - height / 2}
-    {@const href = `wics2/${convertSymbolKeyToId(h.icon)}.svg`}
-    {@const r = height / 2}
-    <circle class="background" cy={y + r} cx={x + r} {r} />
-    <image {x} {y} {height} {width} {href} />
+    {#if h.icon}
+      {@const height = 40}
+      {@const width = 40}
+      {@const x = scaledData[h.index][0] - width / 2}
+      {@const y = scaledData[h.index][1] - height / 2}
+      {@const href = `wics2/${convertSymbolKeyToId(h.icon)}.svg`}
+      {@const r = height / 2}
+      <circle class="background" cy={y + r} cx={x + r} {r} />
+      <image {x} {y} {height} {width} {href} />
+    {/if}
   {/each}
 </svg>
 

@@ -1,4 +1,4 @@
-export type { WeathericonKey } from "$lib/weathericons";
+import type { TWeatherSymbolKey } from "$lib/functions/weathericons";
 
 export type WeatherData = {
   type: string;
@@ -63,7 +63,7 @@ export type Timeseries = {
 export type DataAndTime = {
   value: number;
   date: string;
-  icon?: string;
+  icon?: TWeatherSymbolKey;
 };
 
 export type Instant = {
