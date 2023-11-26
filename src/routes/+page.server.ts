@@ -46,11 +46,9 @@ export const load: PageServerLoad = async (_event) => {
       temps: getTemps(weatherResp, 8),
       instant: getInstant(weatherResp),
     };
-    // const splitTrains = splitAndCleanTrains(trains);
     return {
       weather,
       transports,
-      // splitTrains,
     };
   } else {
     return {
@@ -61,7 +59,6 @@ export const load: PageServerLoad = async (_event) => {
         instant: dummyInstant,
         raw: [],
       },
-      // splitTrains: { northbound: dummyTrains },
     };
   }
 };

@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { RelevantTrainInfo } from "$lib/types";
-  export let train: RelevantTrainInfo;
+  import type { TransportRelevantInfo } from "$lib/types";
+  export let transport: TransportRelevantInfo;
 </script>
 
 <div class="train">
-  <span>{train.line}</span>
-  <strong>{train.time}</strong>
-  {#if train.delay > 0}
+  <span>{transport.publicCode}</span>
+  <strong>{transport.minsFromHour}</strong>
+  {#if transport.delay > 0}
     <div class="delay">
-      <span>!!</span><strong>{train.delay}</strong>
+      <span>!!</span><strong>{transport.delay}</strong>
     </div>
   {/if}
 </div>

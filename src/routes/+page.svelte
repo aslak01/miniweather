@@ -2,7 +2,7 @@
   import type { PageData } from "./$types";
   import Linechart from "$lib/components/linechart.svelte";
   import Histogram from "$lib/components/histogram.svelte";
-  import Train from "$lib/components/train.svelte";
+  import Transport from "$lib/components/transport.svelte";
 
   export let data: PageData;
 
@@ -15,9 +15,9 @@
     block: 20,
   };
 
-  const { rain, temps } = data.weather;
-
-  const northbound = [];
+  const { transports, weather } = data;
+  const { rain, temps } = weather;
+  const slicedTransports = transports?.slice(0, 4);
 
   loaded = true;
 </script>
@@ -38,9 +38,9 @@
     </div>
   </div>
   <div class="trains">
-    {#if northbound && northbound.length}
-      {#each northbound as train}
-        <Train {train} />
+    {#if slicedTransports?.length}
+      {#each slicedTransports as transport}
+        <Transport {transport} />
       {/each}
     {/if}
   </div>

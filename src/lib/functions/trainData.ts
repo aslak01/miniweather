@@ -4,10 +4,12 @@ import { trainQuery } from "$lib/consts/trainQuery";
 import type {
   Leg,
   NewTrainData,
+  NullableTransportRelevantInfo,
   RelevantTrainInfo,
   SortedTrainData,
   StopToStopGeometries,
   TrainData,
+  TransportRelevantInfo,
   TripPattern,
 } from "../types";
 
@@ -76,18 +78,6 @@ function newGetRelevantInfo(trip: TripPattern) {
   return legs.map(getLegInfo);
 }
 
-type TransportRelevantInfo = {
-  publicCode: string;
-  minsFromHour: string;
-  minsFromNow: number;
-  delay: number;
-  meta: {
-    aimedDepartureTime: string;
-    expectedDepartureTime: string;
-  };
-};
-type NullableTransportRelevantInfo = TransportRelevantInfo[] | null;
-
 export async function getTrains(
   quay: string,
 ): Promise<NullableTransportRelevantInfo> {
@@ -115,9 +105,9 @@ export async function getTransports(busQuay: string, trainQuay: string) {
   const buses = await getBuses(busQuay);
   let both = null;
   if (trains && buses) {
-    both = [...trains.filter(isTruthy), ...buses.filter(isTruthy)].sort(
-      (a, b) => a.minsFromNow - b.minsFromNow,
-    );
+    both = [...trains.filter(isTruthy), ...buses.filter(isTruthy)]
+      .filter((t) => t.minsFromNow > 10)
+      .sort((a, b) => a.minsFromNow - b.minsFromNow);
   }
   return both;
 }

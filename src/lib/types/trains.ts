@@ -80,3 +80,15 @@ export type Leg = {
     actualDepartureTime: string | null;
   };
 };
+
+export type TransportRelevantInfo = {
+  publicCode: string;
+  minsFromHour: string;
+  minsFromNow: number;
+  delay: number;
+  meta: {
+    aimedDepartureTime: string;
+    expectedDepartureTime: string;
+  };
+};
+export type NullableTransportRelevantInfo = TransportRelevantInfo[] | null;
