@@ -10,6 +10,8 @@
 
   export let data: DataAndTime[];
 
+  $: hasRain = data.some((p) => p.value > 0);
+
   export let height = 150;
   export let width = 130;
   export let stroke = 3;
@@ -69,39 +71,41 @@
   // const line = d3.line().curve(d3.curveLinear)(closedPoly);
 </script>
 
-<svg
-  viewBox={`0 0 ${width} ${height}`}
-  {height}
-  {width}
-  style="--stroke-width: {stroke}"
->
-  {#each points as point}
-    {#if d3.polygonContains(closedPoly, [point[0], point[1]])}
-      <circle class="stipple" cx={point[0]} cy={point[1]} r={2.5} />
-    {/if}
-  {/each}
-
-  <path d={line} />
-  {#if ticks}
-    {#each ticks as n}
-      <text
-        class="last"
-        x={width - margins.inline + 5}
-        y={yScale(n)}
-        alignment-baseline="middle"
-        >{n}
-      </text>
-      <line
-        x1={margins.inline}
-        x2={width - margins.inline}
-        y1={yScale(n)}
-        y2={yScale(n)}
-        stroke="black"
-        stroke-dasharray="5"
-      />
+{#if hasRain}
+  <svg
+    viewBox={`0 0 ${width} ${height}`}
+    {height}
+    {width}
+    style="--stroke-width: {stroke}"
+  >
+    {#each points as point}
+      {#if d3.polygonContains(closedPoly, [point[0], point[1]])}
+        <circle class="stipple" cx={point[0]} cy={point[1]} r={2.5} />
+      {/if}
     {/each}
-  {/if}
-</svg>
+
+    <path d={line} />
+    {#if ticks}
+      {#each ticks as n}
+        <text
+          class="last"
+          x={width - margins.inline + 5}
+          y={yScale(n)}
+          alignment-baseline="middle"
+          >{n}
+        </text>
+        <line
+          x1={margins.inline}
+          x2={width - margins.inline}
+          y1={yScale(n)}
+          y2={yScale(n)}
+          stroke="black"
+          stroke-dasharray="5"
+        />
+      {/each}
+    {/if}
+  </svg>
+{/if}
 
 <style>
   svg path {
