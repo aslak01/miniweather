@@ -8,7 +8,16 @@
   <strong>{transport.minsFromHour}</strong>
   {#if transport.delay > 0}
     <div class="delay">
-      <span>!!</span><strong>{transport.delay}</strong>
+      {#if transport.delay > 5}
+        <span>!!</span>
+      {:else if transport.delay > 10}
+        <span>!!!</span>
+      {:else if transport.delay > 15}
+        <span>!!!!</span>
+      {:else if transport.delay > 20}
+        <span>!!!!</span>
+      {/if}
+      <strong>{transport.delay}</strong>
     </div>
   {/if}
 </div>
