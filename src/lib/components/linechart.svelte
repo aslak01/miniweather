@@ -162,6 +162,8 @@
     {@const x = scaledData[h.index][0] - width / 2}
     {@const y = scaledData[h.index][1] - height / 2}
     {@const href = `wicons/${h.icon}.svg`}
+    {@const r = height / 2}
+    <circle class="background" cy={y + r} cx={x + r} {r} />
     <image {x} {y} {height} {width} {href} />
   {/each}
 </svg>
@@ -191,5 +193,8 @@
     fill: white;
     stroke: black;
     stroke-width: 4px;
+  }
+  circle.background {
+    fill: white;
   }
 </style>
