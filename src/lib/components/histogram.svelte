@@ -60,9 +60,9 @@
   const max = Math.max(...data.map(yAccessor));
 
   const ticks = generateLowerNumbers(1)(max);
-  console.log(ticks);
 
-  console.log(max);
+  // console.log(ticks);
+  // console.log(max);
 
   // const line = d3.line().curve(d3.curveLinear)(scaledData);
   const line = d3.line().curve(d3.curveLinear)(feltonData);

@@ -1,13 +1,21 @@
 import type { PageServerLoad } from "./$types";
 import type { Timeseries } from "$lib/types";
-import { env } from "$env/dynamic/public";
 
 import {
+  SECRET_BUS_QUAY,
+  SECRET_LAT,
+  SECRET_LON,
+  SECRET_TRAIN_QUAY,
+} from "$env/static/private";
+
+import {
+  getBuses,
   getIcon,
   getInstant,
   getRain,
   getTemps,
   getTrains,
+  getTransports,
   getWeather,
   splitAndCleanTrains,
 } from "$lib/functions/index";
@@ -20,27 +28,29 @@ import {
   dummyTrains,
 } from "$lib/testing";
 
-const LAT = env.PUBLIC_LAT,
-  LON = env.PUBLIC_LON,
-  // DEV = import.meta.env.DEV;
-  // DEV = true;
-  DEV = false;
+const DEV = false;
+
+const transports = await getTransports(
+  SECRET_BUS_QUAY || "NSR:StopPlace:59872",
+  SECRET_TRAIN_QUAY || "NSR:StopPlace:59872",
+);
+const weatherResp = await getWeather(SECRET_LAT, SECRET_LON);
+
+console.log(transports);
 
 export const load: PageServerLoad = async (_event) => {
-  if (LAT && LON && !DEV) {
-    const weather = await getWeather(LAT, LON).then((res: Timeseries[]) => {
-      return {
-        iconkey: getIcon(res),
-        rain: getRain(res, 8),
-        temps: getTemps(res, 8),
-        instant: getInstant(res),
-      };
-    });
-    const trains = await getTrains();
-    const splitTrains = splitAndCleanTrains(trains);
+  if (!DEV) {
+    const weather = {
+      iconkey: getIcon(weatherResp),
+      rain: getRain(weatherResp, 8),
+      temps: getTemps(weatherResp, 8),
+      instant: getInstant(weatherResp),
+    };
+    // const splitTrains = splitAndCleanTrains(trains);
     return {
       weather,
-      splitTrains,
+      transports,
+      // splitTrains,
     };
   } else {
     return {
@@ -51,7 +61,7 @@ export const load: PageServerLoad = async (_event) => {
         instant: dummyInstant,
         raw: [],
       },
-      splitTrains: { northbound: dummyTrains },
+      // splitTrains: { northbound: dummyTrains },
     };
   }
 };

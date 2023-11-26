@@ -1,122 +1,123 @@
+import { busQuerty } from "$lib/consts/busQuery";
+import { trainQuery } from "$lib/consts/trainQuery";
+
 import type {
-  TrainData,
+  Leg,
+  NewTrainData,
   RelevantTrainInfo,
   SortedTrainData,
   StopToStopGeometries,
+  TrainData,
+  TripPattern,
 } from "../types";
+
 import { dateStringToMin, dateStringToMinFromNow, timeDiffInMin } from "./date";
+import { isTruthy } from "./utils";
 
-export const getTrains = async (): Promise<TrainData[]> => {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("ET-Client-Name", "personlig-infoskjerm");
+export const fetchEnturGql = async (query: string): Promise<TripPattern[]> => {
+  const headers = {
+    "Content-Type": "application/json",
+    "ET-Client-Name": "personlig-infoskjerm",
+  };
+  const myHeaders = new Headers(headers);
 
-  const graphql = JSON.stringify({
-    query: `
-      {
-        stopPlace(
-          id: "NSR:StopPlace:418"
-        ) {
-          name
-          id
-          estimatedCalls(
-            arrivalDeparture: departures
-            includeCancelledTrips: true
-            numberOfDepartures: 20
-          ) {
-            expectedDepartureTime
-            destinationDisplay {
-              frontText
-            }
-            cancellation
-            predictionInaccurate
-            aimedArrivalTime
-            aimedDepartureTime
-            serviceJourney {
-              line {
-                publicCode
-                transportMode
-                name
-              }
-              journeyPattern {
-                stopToStopGeometries {
-                  toQuay {
-                    id
-                    name
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    `,
-  });
   const requestOptions = {
     method: "POST",
     headers: myHeaders,
-    body: graphql,
+    body: JSON.stringify({ query: query }),
   };
 
   const res = await fetch(
     "https://api.entur.io/journey-planner/v3/graphql",
     requestOptions,
   );
-  const json = await res.json();
-  return json.data.stopPlace.estimatedCalls;
+  const json: NewTrainData = await res.json();
+  return json.data.trip.tripPatterns;
 };
 
-export const extractLineNamesAndRelTime = (
-  train: TrainData,
-): RelevantTrainInfo => {
-  const expected = train.expectedDepartureTime;
-  const aimed = train.aimedDepartureTime;
-  const delay = timeDiffInMin(expected, aimed);
+type TrainRelativeTimes = {
+  minsFromHour: string;
+  minsFromNow: number;
+  delay: number;
+};
+
+export const parseTrainTime = (
+  expectedDepartureTime: string,
+  aimedDepartureTime: string,
+): TrainRelativeTimes => {
+  const delay = timeDiffInMin(expectedDepartureTime, aimedDepartureTime);
   return {
-    line: train.serviceJourney.line.publicCode,
-    display: train.destinationDisplay.frontText,
-    time: dateStringToMin(expected),
-    diff: dateStringToMinFromNow(expected),
+    minsFromHour: dateStringToMin(expectedDepartureTime),
+    minsFromNow: dateStringToMinFromNow(expectedDepartureTime),
     delay,
   };
 };
 
-export const splitAndCleanTrains = (data: TrainData[]): SortedTrainData => {
-  const askerBeforeOslo = (d: TrainData) => {
-    const indexOfStation = (sts: TrainData, x: string): number =>
-      sts.serviceJourney.journeyPattern.stopToStopGeometries
-        .map((s: StopToStopGeometries) => s.toQuay.name)
-        .indexOf(x);
-    const askerIndex = indexOfStation(d, "Asker stasjon");
-    const osloIndex = indexOfStation(d, "Oslo S");
-    return askerIndex < osloIndex;
-  };
-  const tooSoon = (d: RelevantTrainInfo) => {
-    return d.diff > 15;
-  };
-  const tooLate = (d: RelevantTrainInfo) => {
-    return d.diff < 600;
-  };
-  const noFlytog = (d: RelevantTrainInfo) => {
-    return d.line.includes("FLY") === false;
-  };
-  const northbound = data
-    .filter(askerBeforeOslo)
-    .map(extractLineNamesAndRelTime)
-    .filter(tooSoon)
-    .filter(tooLate)
-    .filter(noFlytog)
-    .slice(0, 4);
-  const southbound = data
-    .filter((train: TrainData) => askerBeforeOslo(train) === false)
-    .map(extractLineNamesAndRelTime)
-    .filter(tooSoon)
-    .filter(tooLate)
-    .filter(noFlytog)
-    .slice(0, 4);
-
+function getLegInfo(leg: Leg): TransportRelevantInfo {
+  const { line, fromEstimatedCall } = leg;
+  const { publicCode } = line;
+  const { aimedDepartureTime, expectedDepartureTime } = fromEstimatedCall;
+  const relTimes = parseTrainTime(aimedDepartureTime, expectedDepartureTime);
+  const { minsFromHour, minsFromNow, delay } = relTimes;
   return {
-    northbound,
-    southbound,
+    publicCode,
+    minsFromHour,
+    minsFromNow,
+    delay,
+    meta: {
+      aimedDepartureTime,
+      expectedDepartureTime,
+    },
+  };
+}
+
+function newGetRelevantInfo(trip: TripPattern) {
+  const { legs } = trip;
+  return legs.map(getLegInfo);
+}
+
+type TransportRelevantInfo = {
+  publicCode: string;
+  minsFromHour: string;
+  minsFromNow: number;
+  delay: number;
+  meta: {
+    aimedDepartureTime: string;
+    expectedDepartureTime: string;
   };
 };
+type NullableTransportRelevantInfo = TransportRelevantInfo[] | null;
+
+export async function getTrains(
+  quay: string,
+): Promise<NullableTransportRelevantInfo> {
+  const data = await fetchEnturGql(trainQuery(quay));
+  const filteredData = data.filter(isTruthy);
+  if (filteredData.length === 0) return null;
+  const mappedData = data.flatMap(newGetRelevantInfo);
+  const metaCodedMappedData = mappedData.map((t) => ({ ...t, type: "train" }));
+  return metaCodedMappedData || null;
+}
+
+export async function getBuses(
+  quay: string,
+): Promise<NullableTransportRelevantInfo> {
+  const data = await fetchEnturGql(busQuerty(quay));
+  const filteredData = data.filter(isTruthy);
+  if (filteredData.length === 0) return null;
+  const mappedData = data.flatMap(newGetRelevantInfo);
+  const metaCodedMappedData = mappedData.map((t) => ({ ...t, type: "bus" }));
+  return mappedData || null;
+}
+
+export async function getTransports(busQuay: string, trainQuay: string) {
+  const trains = await getTrains(trainQuay);
+  const buses = await getBuses(busQuay);
+  let both = null;
+  if (trains && buses) {
+    both = [...trains.filter(isTruthy), ...buses.filter(isTruthy)].sort(
+      (a, b) => a.minsFromNow - b.minsFromNow,
+    );
+  }
+  return both;
+}

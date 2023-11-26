@@ -17,7 +17,7 @@
 
   const { rain, temps } = data.weather;
 
-  const northbound = data.splitTrains.northbound;
+  const northbound = [];
 
   loaded = true;
 </script>
@@ -38,9 +38,11 @@
     </div>
   </div>
   <div class="trains">
-    {#each northbound as train}
-      <Train {train} />
-    {/each}
+    {#if northbound && northbound.length}
+      {#each northbound as train}
+        <Train {train} />
+      {/each}
+    {/if}
   </div>
 {/if}
 

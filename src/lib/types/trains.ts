@@ -46,3 +46,37 @@ export type SortedTrainData = {
   northbound: RelevantTrainInfo[];
   southbound: RelevantTrainInfo[];
 };
+
+export type NewTrainData = {
+  data: {
+    trip: {
+      tripPatterns: TripPattern[];
+    };
+  };
+};
+
+export type TripPattern = {
+  expectedStartTime: string;
+  duration: number;
+  legs: Leg[];
+};
+
+export type Leg = {
+  mode: string;
+  distance: number;
+  line: {
+    id: string;
+    publicCode: string;
+    name: string;
+  };
+  fromEstimatedCall: {
+    quay: {
+      id: string;
+      name: string;
+    };
+    realtime: boolean;
+    aimedDepartureTime: string;
+    expectedDepartureTime: string;
+    actualDepartureTime: string | null;
+  };
+};

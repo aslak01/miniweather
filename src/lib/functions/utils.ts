@@ -57,3 +57,6 @@ export function selectEvenIndicesWithIndex<T>(
 export function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
+
+export const isTruthy = <T>(x: T | false | undefined | null | "" | 0): x is T =>
+  !!x;
