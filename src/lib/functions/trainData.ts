@@ -96,14 +96,19 @@ export async function getBuses(
   return metaCodedMappedData || null;
 }
 
-export async function getTransports(busQuay: string, trainQuay: string) {
+export async function getTransports(
+  busQuay: string,
+  trainQuay: string,
+  amt: number,
+) {
   const trains = await getTrains(trainQuay);
   const buses = await getBuses(busQuay);
   let both = null;
   if (trains && buses) {
     both = [...trains.filter(isTruthy), ...buses.filter(isTruthy)]
       .filter((t) => t.minsFromNow > 10)
-      .sort((a, b) => a.minsFromNow - b.minsFromNow);
+      .sort((a, b) => a.minsFromNow - b.minsFromNow)
+      .slice(0, amt);
   }
   return both;
 }

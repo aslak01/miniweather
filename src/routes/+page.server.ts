@@ -8,41 +8,34 @@ import {
 } from "$env/static/private";
 
 import {
-  getIcon,
-  getInstant,
   getRain,
   getTemps,
   getTransports,
   getWeather,
 } from "$lib/functions/index";
 
-import {
-  dummyIcon,
-  dummyInstant,
-  dummyRain,
-  dummyTemps,
-  dummyTrains,
-} from "$lib/testing";
+import { dummyRain, dummyTemps, dummyTrains } from "$lib/testing";
 
 const DEV = false;
+const hoursToGet = 8;
+const transportsToGet = 6;
 
-async function getTrains() {
+async function getTrains(amt: number) {
   return await getTransports(
     SECRET_BUS_QUAY || "NSR:StopPlace:59872",
     SECRET_TRAIN_QUAY || "NSR:StopPlace:59872",
+    amt,
   );
 }
 
 const weatherResp = await getWeather(SECRET_LAT, SECRET_LON);
 
-export const load: PageServerLoad = async (_event) => {
+export const load: PageServerLoad = async () => {
   const weather = {
-    iconkey: DEV ? dummyIcon : getIcon(weatherResp),
-    rain: DEV ? dummyRain : getRain(weatherResp, 8),
-    temps: DEV ? dummyTemps : getTemps(weatherResp, 8),
-    instant: DEV ? dummyInstant : getInstant(weatherResp),
+    rain: DEV ? dummyRain : getRain(weatherResp, hoursToGet),
+    temps: DEV ? dummyTemps : getTemps(weatherResp, hoursToGet),
   };
-  const transports = DEV ? dummyTrains : getTrains();
+  const transports = DEV ? dummyTrains : getTrains(transportsToGet);
   return {
     weather,
     transports,
