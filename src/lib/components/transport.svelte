@@ -1,10 +1,17 @@
 <script lang="ts">
-  import type { TransportRelevantInfo } from "$lib/types";
-  export let transport: TransportRelevantInfo;
+  import Train from "$lib/icons/train.svelte";
+  import Bus from "$lib/icons/bus.svelte";
+  import type { TransportRelevantInfoWithType } from "$lib/types";
+  export let transport: TransportRelevantInfoWithType;
 </script>
 
 <div class="train">
-  <span>{transport.publicCode}</span>
+  {#if transport.type === "bus"}
+    <Bus></Bus>
+  {:else if transport.type === "train"}
+    <Train></Train>
+  {/if}
+  <!-- <span>{transport.publicCode}</span> -->
   <strong>{transport.minsFromHour}</strong>
   {#if transport.delay > 0}
     <div class="delay">

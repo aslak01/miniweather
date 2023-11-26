@@ -91,4 +91,13 @@ export type TransportRelevantInfo = {
     expectedDepartureTime: string;
   };
 };
+
+export type TransportRelevantInfoWithType = TransportRelevantInfo & {
+  type: string;
+};
+
 export type NullableTransportRelevantInfo = TransportRelevantInfo[] | null;
+
+export type NullableTransportRelevantInfoWithType =
+  | TransportRelevantInfoWithType[]
+  | null;

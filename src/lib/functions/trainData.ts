@@ -5,6 +5,7 @@ import type {
   Leg,
   NewTrainData,
   NullableTransportRelevantInfo,
+  NullableTransportRelevantInfoWithType,
   RelevantTrainInfo,
   SortedTrainData,
   StopToStopGeometries,
@@ -80,7 +81,7 @@ function newGetRelevantInfo(trip: TripPattern) {
 
 export async function getTrains(
   quay: string,
-): Promise<NullableTransportRelevantInfo> {
+): Promise<NullableTransportRelevantInfoWithType> {
   const data = await fetchEnturGql(trainQuery(quay));
   const filteredData = data.filter(isTruthy);
   if (filteredData.length === 0) return null;
@@ -91,13 +92,13 @@ export async function getTrains(
 
 export async function getBuses(
   quay: string,
-): Promise<NullableTransportRelevantInfo> {
+): Promise<NullableTransportRelevantInfoWithType> {
   const data = await fetchEnturGql(busQuerty(quay));
   const filteredData = data.filter(isTruthy);
   if (filteredData.length === 0) return null;
   const mappedData = data.flatMap(newGetRelevantInfo);
   const metaCodedMappedData = mappedData.map((t) => ({ ...t, type: "bus" }));
-  return mappedData || null;
+  return metaCodedMappedData || null;
 }
 
 export async function getTransports(busQuay: string, trainQuay: string) {
