@@ -82,7 +82,7 @@ export type Leg = {
 };
 
 export type TransportRelevantInfo = {
-  publicCode: string;
+  publicCode?: string;
   minsFromHour: string;
   minsFromNow: number;
   delay: number;

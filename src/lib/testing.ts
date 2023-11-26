@@ -1,5 +1,9 @@
-import type { DataAndTime, Instant, RelevantTrainInfo } from "./types";
-import type { WeathericonKey } from "./weathericons";
+import type { TWeatherSymbolKey } from "./functions/weathericons";
+import type {
+  DataAndTime,
+  Instant,
+  TransportRelevantInfoWithType,
+} from "./types";
 
 export const dummyTemps: DataAndTime[] = [
   {
@@ -28,6 +32,7 @@ export const dummyTemps: DataAndTime[] = [
     icon: "snow",
   },
 ];
+
 export const dummyRain: DataAndTime[] = [
   {
     value: 2,
@@ -50,7 +55,9 @@ export const dummyRain: DataAndTime[] = [
     date: "2023-02-27T13:00:00Z",
   },
 ];
-export const dummyIcon: WeathericonKey = "clearsky_day";
+
+export const dummyIcon: TWeatherSymbolKey = "clearsky_day";
+
 export const dummyInstant: Instant = {
   time: "2023-02-27T12:00:00Z",
   air_pressure_at_sea_level: 10,
@@ -61,34 +68,55 @@ export const dummyInstant: Instant = {
   wind_speed: 2,
 };
 
-export const dummyTrains: RelevantTrainInfo[] = [
+export const dummyTrains: TransportRelevantInfoWithType[] = [
   {
-    line: "l1",
-    display: "høn",
-    time: "12",
-    diff: 12,
-    delay: 12,
-  },
-
-  {
-    line: "l1",
-    display: "høn",
-    time: "12",
-    diff: 12,
-    delay: 12,
+    minsFromHour: "12",
+    minsFromNow: 12,
+    delay: 22,
+    meta: {
+      aimedDepartureTime: "string",
+      expectedDepartureTime: "string",
+    },
+    type: "train",
   },
   {
-    line: "l1",
-    display: "høn",
-    time: "12",
-    diff: 12,
-    delay: 12,
+    minsFromHour: "22",
+    minsFromNow: 22,
+    delay: 0,
+    meta: {
+      aimedDepartureTime: "string",
+      expectedDepartureTime: "string",
+    },
+    type: "bus",
   },
   {
-    line: "l1",
-    display: "høn",
-    time: "12",
-    diff: 12,
-    delay: 12,
+    minsFromHour: "32",
+    minsFromNow: 42,
+    delay: 15,
+    meta: {
+      aimedDepartureTime: "string",
+      expectedDepartureTime: "string",
+    },
+    type: "train",
+  },
+  {
+    minsFromHour: "12",
+    minsFromNow: 68,
+    delay: 3,
+    meta: {
+      aimedDepartureTime: "string",
+      expectedDepartureTime: "string",
+    },
+    type: "bus",
+  },
+  {
+    minsFromHour: "38",
+    minsFromNow: 80,
+    delay: 0,
+    meta: {
+      aimedDepartureTime: "string",
+      expectedDepartureTime: "string",
+    },
+    type: "bus",
   },
 ];

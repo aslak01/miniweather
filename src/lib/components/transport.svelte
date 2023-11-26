@@ -6,23 +6,24 @@
 </script>
 
 <div class="train">
-  {#if transport.type === "bus"}
-    <Bus></Bus>
-  {:else if transport.type === "train"}
-    <Train></Train>
-  {/if}
-  <!-- <span>{transport.publicCode}</span> -->
+  <div class="icon">
+    {#if transport.type === "bus"}
+      <Bus />
+    {:else if transport.type === "train"}
+      <Train />
+    {/if}
+  </div>
   <strong>{transport.minsFromHour}</strong>
   {#if transport.delay > 0}
     <div class="delay">
-      {#if transport.delay > 5}
+      {#if transport.delay < 5}
+        <span>!</span>
+      {:else if transport.delay < 10}
         <span>!!</span>
-      {:else if transport.delay > 10}
+      {:else if transport.delay < 15}
         <span>!!!</span>
-      {:else if transport.delay > 15}
-        <span>!!!!</span>
-      {:else if transport.delay > 20}
-        <span>!!!!</span>
+      {:else if transport.delay >= 15}
+        <strong>!!!</strong>
       {/if}
       <strong>{transport.delay}</strong>
     </div>
@@ -31,6 +32,9 @@
 
 <style>
   .train {
+    display: flex;
+    align-items: end;
+    gap: 2px;
     font-size: 1.8rem;
   }
   .train strong {
@@ -41,6 +45,12 @@
     font-size: 1.2rem;
   }
   .delay {
-    display: inline;
+    display: flex;
+    align-self: center;
+  }
+  .icon {
+    display: flex;
+    align-items: center;
+    align-self: center;
   }
 </style>
