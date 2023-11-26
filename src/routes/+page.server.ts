@@ -1,5 +1,4 @@
 import type { PageServerLoad } from "./$types";
-import type { Timeseries } from "$lib/types";
 
 import {
   SECRET_BUS_QUAY,
@@ -9,15 +8,12 @@ import {
 } from "$env/static/private";
 
 import {
-  getBuses,
   getIcon,
   getInstant,
   getRain,
   getTemps,
-  getTrains,
   getTransports,
   getWeather,
-  splitAndCleanTrains,
 } from "$lib/functions/index";
 
 import {

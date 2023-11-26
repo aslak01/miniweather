@@ -4,12 +4,7 @@ import { trainQuery } from "$lib/consts/trainQuery";
 import type {
   Leg,
   NewTrainData,
-  NullableTransportRelevantInfo,
   NullableTransportRelevantInfoWithType,
-  RelevantTrainInfo,
-  SortedTrainData,
-  StopToStopGeometries,
-  TrainData,
   TransportRelevantInfo,
   TripPattern,
 } from "../types";
