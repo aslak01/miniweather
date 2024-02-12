@@ -43,7 +43,7 @@ export const parseTrainTime = (
   expectedDepartureTime: string,
   aimedDepartureTime: string,
 ): TrainRelativeTimes => {
-  const delay = timeDiffInMin(expectedDepartureTime, aimedDepartureTime);
+  const delay = timeDiffInMin(aimedDepartureTime, expectedDepartureTime);
   return {
     minsFromHour: dateStringToMin(expectedDepartureTime),
     minsFromNow: dateStringToMinFromNow(expectedDepartureTime),
@@ -78,9 +78,11 @@ export async function getTrains(
   quay: string,
 ): Promise<NullableTransportRelevantInfoWithType> {
   const data = await fetchEnturGql(trainQuery(quay));
+  console.log(data);
   const filteredData = data.filter(isTruthy);
   if (filteredData.length === 0) return null;
   const mappedData = data.flatMap(newGetRelevantInfo);
+  console.log(mappedData);
   const metaCodedMappedData = mappedData.map((t) => ({ ...t, type: "train" }));
   return metaCodedMappedData || null;
 }
