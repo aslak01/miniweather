@@ -35,7 +35,7 @@ export const load: PageServerLoad = async () => {
     rain: DEV ? dummyRain : getRain(weatherResp, hoursToGet),
     temps: DEV ? dummyTemps : getTemps(weatherResp, hoursToGet),
   };
-  const transports = DEV ? dummyTrains : getTrains(transportsToGet);
+  const transports = DEV ? dummyTrains : await getTrains(transportsToGet);
   return {
     weather,
     transports,

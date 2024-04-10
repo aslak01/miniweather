@@ -17,8 +17,7 @@
 
   const { transports, weather } = data;
   const { rain, temps } = weather;
-  const slicedTransports = transports?.slice(0, 5);
-
+  const slicedTransports = transports && transports.slice(0, 5);
   loaded = true;
 </script>
 
