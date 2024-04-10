@@ -15,7 +15,7 @@ export const getWeather = async (
   const res = await req.json();
   const now = new Date(new Date().setMinutes(0, 0, 0)).getTime();
 
-  const tenHrsInMs = 36000000;
+  const tenHrsInMs = 10 * 60 * 60 * 1000
   // const halfHrInMs = 1800000;
 
   const next10hours = res.properties.timeseries.filter(
