@@ -164,7 +164,7 @@
       {@const width = 40}
       {@const x = scaledData[h.index][0] - width / 2}
       {@const y = scaledData[h.index][1] - height / 2}
-      {@const href = `${base}/wics2/${convertSymbolKeyToId(h.icon)}.svg`}
+      {@const href = `https://miniweather.vercel.app/wics2/${convertSymbolKeyToId(h.icon)}.svg`}
       {@const r = height / 2}
       <circle class="background" cy={y + r} cx={x + r} {r} />
       <image {x} {y} {height} {width} {href} />
