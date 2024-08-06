@@ -3,6 +3,7 @@
   import type { DataAndTime } from "$lib/types";
   import { clamp, selectEvenIndicesWithIndex } from "$lib/functions";
   import { convertSymbolKeyToId } from "$lib/functions/weathericons";
+  import { base } from "$app/paths";
 
   export let data: DataAndTime[];
   export let height = 150;
@@ -163,7 +164,7 @@
       {@const width = 40}
       {@const x = scaledData[h.index][0] - width / 2}
       {@const y = scaledData[h.index][1] - height / 2}
-      {@const href = `wics2/${convertSymbolKeyToId(h.icon)}.svg`}
+      {@const href = `${base}/wics2/${convertSymbolKeyToId(h.icon)}.svg`}
       {@const r = height / 2}
       <circle class="background" cy={y + r} cx={x + r} {r} />
       <image {x} {y} {height} {width} {href} />
