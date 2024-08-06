@@ -31,11 +31,14 @@
   },
   "type": "module",
   "dependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.8.0",
     "@fontsource/inter": "^5.0.17",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
     "d3": "^7.9.0",
     "dayjs": "^1.11.10",
     "fp-ts": "^2.16.5",
+    "globals": "^15.9.0",
     "rambda": "^9.2.0"
   }
 }
