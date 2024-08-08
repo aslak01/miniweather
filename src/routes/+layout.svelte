@@ -20,8 +20,9 @@
 </main>
 
 <style>
-  main,
-  :global(body, html) {
+  main {
+    display: flex;
+    align-items: start;
     height: 100%;
     min-height: 100dvh;
   }
@@ -34,7 +35,8 @@
   }
   .centerer {
     display: grid;
-    place-content: center;
-    height: 100%;
+    align-self: center;
+    justify-self: center;
+    margin-inline: auto;
   }
 </style>

@@ -16,7 +16,7 @@
   export let width = 130;
   export let stroke = 3;
 
-  export let margins = {
+  export let padding = {
     inline: 35,
     block: 15,
   };
@@ -34,12 +34,12 @@
   const xScale = d3
     .scaleTime()
     .domain([new Date(first.date), new Date(last.date)])
-    .range([margins.inline, width - margins.inline]);
+    .range([padding.inline, width - padding.inline]);
 
   const yScale = d3
     .scaleLinear()
     .domain([minY, maxY])
-    .range([height - margins.block, margins.block])
+    .range([height - padding.block, padding.block])
     .nice();
 
   const feltonData = generateFeltonLine(
@@ -50,7 +50,7 @@
     yAccessor,
   );
 
-  const points = generatePoissonPoints(width, height - margins.block / 4, 12);
+  const points = generatePoissonPoints(width, height - padding.block / 4, 12);
   const closedPoly = generateClosedFeltonPolygon(
     data,
     xScale,
@@ -89,14 +89,14 @@
       {#each ticks as n}
         <text
           class="last"
-          x={width - margins.inline + 5}
+          x={width - padding.inline + 5}
           y={yScale(n)}
           alignment-baseline="middle"
           >{n}
         </text>
         <line
-          x1={margins.inline}
-          x2={width - margins.inline}
+          x1={padding.inline}
+          x2={width - padding.inline}
           y1={yScale(n)}
           y2={yScale(n)}
           stroke="black"

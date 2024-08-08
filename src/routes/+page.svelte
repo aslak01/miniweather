@@ -10,7 +10,7 @@
 
   const height = 220;
   const width = 480;
-  const margins = {
+  const padding = {
     inline: 75,
     block: 20,
   };
@@ -26,12 +26,12 @@
     <div class="change">
       <div class="rain" style="--width: {width + 'px'}">
         <div class="line">
-          <Histogram data={rain} {height} {width} {margins} />
+          <Histogram data={rain} {height} {width} {padding} />
         </div>
       </div>
       <div class="temps" style="--width: {width + 'px'}">
         <div class="line">
-          <Linechart data={temps} {height} {width} {margins} />
+          <Linechart data={temps} {height} {width} {padding} />
         </div>
       </div>
     </div>

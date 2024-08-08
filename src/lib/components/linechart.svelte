@@ -10,7 +10,7 @@
   export let width = 130;
   export let stroke = 4;
 
-  export let margins = {
+  export let padding = {
     inline: 60,
     block: 35,
   };
@@ -37,13 +37,13 @@
   const xScale = d3
     .scaleTime()
     .domain([new Date(first.date), new Date(last.date).getTime()])
-    .range([margins.inline, width - margins.inline]);
+    .range([padding.inline, width - padding.inline]);
 
   const yScale = d3
     .scaleLinear()
     .domain(yDomain)
     .nice()
-    .range([height - margins.block, margins.block]);
+    .range([height - padding.block, padding.block]);
 
   const scaleData = (d: DataAndTime): [number, number] => [
     xScale(new Date(d.date)),
@@ -89,13 +89,13 @@
   {#each [-30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30] as n}
     <text
       class="first"
-      x={margins.inline - 5}
+      x={padding.inline - 5}
       y={yScale(n)}
       dominant-baseline="middle">{n}°</text
     >
     <line
-      x1={margins.inline}
-      x2={width - margins.inline}
+      x1={padding.inline}
+      x2={width - padding.inline}
       y1={yScale(n)}
       y2={yScale(n)}
       stroke="black"
@@ -106,8 +106,8 @@
   <line
     x1={noonX}
     x2={noonX + 1}
-    y1={margins.block}
-    y2={height - margins.block}
+    y1={padding.block}
+    y2={height - padding.block}
     stroke="black"
   />
 
@@ -115,8 +115,8 @@
   <line
     x1={midnightX}
     x2={midnightX + 1}
-    y1={margins.block}
-    y2={height - margins.block}
+    y1={padding.block}
+    y2={height - padding.block}
     stroke="black"
     id="midnightLine"
   />
@@ -135,7 +135,7 @@
     class:negative={last.value < 0}
     style="font-size: 2rem; font-weight: bold;"
     x={lastCoord[0] + 50}
-    y={clamp(lastCoord[1], 30, height - margins.block)}
+    y={clamp(lastCoord[1], 30, height - padding.block)}
     bind:this={finalLegend}
     dominant-baseline="middle">{Math.round(last.value)}</text
   >
@@ -154,7 +154,7 @@
     class:negative={first.value < 0}
     style="font-size: 2rem; font-weight: bold;"
     x={firstCoord[0] - 25}
-    y={clamp(firstCoord[1], 30, height - margins.block - 30)}
+    y={clamp(firstCoord[1], 30, height - padding.block - 30)}
     bind:this={initialLegend}
     dominant-baseline="middle">{Math.round(first.value)}</text
   >
